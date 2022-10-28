@@ -3,7 +3,7 @@ export default function CardLogoSocialInstagram() {
     <a
       target={"_blank"}
       rel="noreferrer"
-      href="https://www.instagram.com/clubepromos/"
+      href={process.env.NEXT_PUBLIC_INSTAGRAM_URL}
     >
       <div className="absolute top-44 left-4 z-20 flex flex-col items-start">
         <svg
@@ -17,7 +17,9 @@ export default function CardLogoSocialInstagram() {
             fill="white"
           />
         </svg>
-        <p className="text-xs text-orange-400">@clubepromos</p>
+        <p className="text-xs text-orange-400">
+          {process.env.NEXT_PUBLIC_INSTAGRAM_USERNAME}
+        </p>
       </div>
     </a>
   );

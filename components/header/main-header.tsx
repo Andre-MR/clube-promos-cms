@@ -53,7 +53,9 @@ export default function MainHeader() {
             </button>
           </div>
 
-          <h1 className="text-xl text-white">CMS Clube Promos Beta</h1>
+          <h1 className="text-xl text-white">
+            {process.env.NEXT_PUBLIC_MAIN_TITLE}
+          </h1>
 
           <button className="group relative mx-2 flex" onClick={hamburgerClick}>
             <div className="relative m-1 flex h-[35px] w-[35px] items-center justify-center overflow-hidden transition-all duration-200">

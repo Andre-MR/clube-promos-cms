@@ -18,8 +18,8 @@ export default function FormImage(props: Props) {
   const [imageUrlHide, setImageUrlHidden] = useState("");
   const [fileInputHide, setFileInputHidden] = useState("hidden");
   return (
-    <div className="flex flex-col space-y-1">
-      <div className="mx-5 mt-2 flex items-center justify-between">
+    <div className="flex w-full flex-col space-y-1">
+      <div className="mx-5 flex items-center justify-between">
         <label className="flex items-center" htmlFor="image">
           Imagem
         </label>

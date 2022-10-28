@@ -19,7 +19,7 @@ export default function FormButtons(props: Props) {
   return (
     <div className="my-2 flex justify-center">
       <input
-        className="flex w-32 cursor-pointer justify-center rounded border-2 border-gray-500 px-4 py-1 font-bold text-gray-500 hover:bg-gray-50"
+        className="flex w-32 cursor-pointer justify-center rounded border-2 border-gray-500 bg-white px-4 py-1 font-bold text-gray-500 hover:bg-gray-50"
         type="reset"
         value={"Limpar"}
         onClick={() => {
@@ -67,7 +67,7 @@ export default function FormButtons(props: Props) {
           <button
             type="submit"
             formMethod="post"
-            className="flex w-32 justify-center rounded border-2 border-blue-500 px-4 py-1 font-bold text-blue-500 hover:bg-blue-50"
+            className="flex w-32 justify-center rounded border-2 border-blue-500 bg-white px-4 py-1 font-bold text-blue-500 hover:bg-blue-50"
           >
             Publicar
           </button>
@@ -75,7 +75,7 @@ export default function FormButtons(props: Props) {
           <button
             type="submit"
             formMethod="post"
-            className="flex w-32 justify-center rounded border-2 border-green-500 px-4 py-1 font-bold text-green-500 hover:bg-green-50"
+            className="flex w-32 justify-center rounded border-2 border-green-500 bg-white px-4 py-1 font-bold text-green-500 hover:bg-green-50"
           >
             Salvar
           </button>

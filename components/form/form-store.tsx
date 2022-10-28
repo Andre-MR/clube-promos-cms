@@ -10,7 +10,7 @@ type Props = {
 
 export default function FormStore(props: Props) {
   return (
-    <div className="mx-5 flex flex-col space-y-1">
+    <div className="mx-5 flex w-full flex-col space-y-1">
       <label htmlFor="priority">Loja</label>
       <select
         className="h-8 rounded py-1 px-1"

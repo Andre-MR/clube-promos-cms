@@ -11,8 +11,8 @@ const Home: NextPage = (props) => {
   return (
     <div className="h-screen">
       <Head>
-        <title>Clube Promos CMS Beta</title>
-        <meta name="description" content="Clube Promos CMS Versão Beta" />
+        <title>{process.env.NEXT_PUBLIC_MAIN_TITLE}</title>
+        <meta name="description" content={process.env.NEXT_PUBLIC_MAIN_TITLE} />
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="flex h-full w-full flex-col items-center">

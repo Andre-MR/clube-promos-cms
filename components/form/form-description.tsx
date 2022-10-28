@@ -8,7 +8,7 @@ type Props = {
 
 export default function FormDescription(props: Props) {
   return (
-    <div title="line6" className="flex h-full w-full flex-col space-y-1 px-5">
+    <div title="line6" className="flex h-full flex-col space-y-1 px-5">
       <label htmlFor="description">Descrição</label>
       <textarea
         className="flex h-full w-full resize-none rounded py-1 px-2"
