@@ -1,0 +1,13 @@
+type Props = {
+  title: string;
+};
+
+export default function FormHeader(props: Props) {
+  return (
+    <div className="bg-fuchsia-50 pt-1 shadow">
+      <h1 className="flex items-center justify-center font-semibold tracking-wide text-black">
+        {props.title}
+      </h1>
+    </div>
+  );
+}
