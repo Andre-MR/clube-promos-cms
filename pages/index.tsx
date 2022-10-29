@@ -20,7 +20,7 @@ const Home: NextPage = (props) => {
         <div className="flex h-full flex-col justify-center space-y-10">
           <Link href={"/ofertas/nova"}>
             <a
-              className="flex justify-center rounded border-2 border-green-500 px-4 py-1 text-lg text-green-500 hover:bg-green-50"
+              className="flex justify-center rounded border-2 border-green-500 px-4 py-1 text-lg font-semibold text-green-500 hover:bg-green-50"
               onClick={() => {
                 setLoading(true);
               }}
@@ -34,7 +34,7 @@ const Home: NextPage = (props) => {
             }}
           >
             <a
-              className="flex justify-center rounded border-2 border-blue-500 py-1 text-lg text-blue-500 hover:bg-blue-50"
+              className="flex justify-center rounded border-2 border-blue-500 py-1 text-lg font-semibold text-blue-500 hover:bg-blue-50"
               onClick={() => {
                 setLoading(true);
               }}

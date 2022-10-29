@@ -9,7 +9,6 @@ enum QueryPeriods {
   Week = "Week",
   Month = "Month",
   Year = "Year",
-  All = "All",
 }
 
 async function saveOffer(
@@ -73,8 +72,6 @@ async function getOffers(queryPeriod: QueryPeriods) {
       return await getOffersMonth();
     case QueryPeriods.Year:
       return await getOffersYear();
-    case QueryPeriods.All:
-      return await getOffersAll();
     default:
       return await getOffersDays7();
     //
@@ -150,13 +147,6 @@ async function getOffersMonth() {
 async function getOffersYear() {
   const today = new Date();
   const PK = `OFFER#${today.getFullYear()}`;
-  const SK = `${today.getFullYear()}`;
-  return await fetchOffers(PK, SK);
-}
-
-async function getOffersAll() {
-  const today = new Date();
-  const PK = `OFFER#${today.getFullYear() - 1}`;
   const SK = `${today.getFullYear()}`;
   return await fetchOffers(PK, SK);
 }

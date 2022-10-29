@@ -1,7 +1,9 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { saveOffer } from "../../database/queries/offers-queries";
+import { ButtonTypes } from "../../models/button-types";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
+import DefaultButton from "../buttons/default-button";
 import LoadingIcon from "../buttons/loading-icon";
 
 type Props = {
@@ -18,16 +20,25 @@ export default function FormButtons(props: Props) {
   const [offerActive, setOfferActive] = useState(true);
   return (
     <div className="my-2 flex justify-center">
-      <input
-        className="flex w-32 cursor-pointer justify-center rounded border-2 border-gray-500 bg-white px-4 py-1 font-bold text-gray-500 hover:bg-gray-50"
-        type="reset"
-        value={"Limpar"}
-        onClick={() => {
-          const newOffer = new Offer();
-          newOffer.Store = props.stores[props.stores.length - 1].toString();
-          props.setOffer(new Offer());
-        }}
-      />
+      {props.offer.SK ? (
+        offerActive ? (
+          <DefaultButton text={"Duplicar"} type={ButtonTypes.Info} />
+        ) : (
+          <DefaultButton text={"Excluir"} type={ButtonTypes.Danger} />
+        )
+      ) : (
+        <button
+          type="reset"
+          value={"Limpar"}
+          onClick={() => {
+            const newOffer = new Offer();
+            newOffer.Store = props.stores[props.stores.length - 1].toString();
+            props.setOffer(new Offer());
+          }}
+        >
+          <DefaultButton text={"Limpar"} type={ButtonTypes.Secondary} />
+        </button>
+      )}
       <div className="mx-20 flex items-center justify-center">
         <label htmlFor="active" className="flex items-center ">
           <input
@@ -64,20 +75,12 @@ export default function FormButtons(props: Props) {
       </div>
       <div className="relative cursor-pointer">
         {offerActive ? (
-          <button
-            type="submit"
-            formMethod="post"
-            className="flex w-32 justify-center rounded border-2 border-blue-500 bg-white px-4 py-1 font-bold text-blue-500 hover:bg-blue-50"
-          >
-            Publicar
+          <button type="submit" formMethod="post">
+            <DefaultButton text={"Publicar"} type={ButtonTypes.Primary} />
           </button>
         ) : (
-          <button
-            type="submit"
-            formMethod="post"
-            className="flex w-32 justify-center rounded border-2 border-green-500 bg-white px-4 py-1 font-bold text-green-500 hover:bg-green-50"
-          >
-            Salvar
+          <button type="submit" formMethod="post">
+            <DefaultButton text={"Salvar"} type={ButtonTypes.Success} />
           </button>
         )}
         {props.loading ? (

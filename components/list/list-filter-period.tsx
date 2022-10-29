@@ -52,9 +52,6 @@ export default function ListFilterPeriod(props: Props) {
         <option key={7} value={QueryPeriods.Year}>
           Este ano
         </option>
-        <option key={8} value={QueryPeriods.All}>
-          Lista completa
-        </option>
       </select>
     </div>
   );
