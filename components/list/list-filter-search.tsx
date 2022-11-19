@@ -1,14 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
 import Offer from "../../models/offer";
-import { FilterKeys, FilterParameters } from "../../models/filter-parameters";
+import { FilterParameters } from "../../models/filter-parameters";
 import { FilterOffers } from "../../utils/offers-sorter-filter";
 
 type Props = {
   offers: Offer[];
   offersFiltered: Offer[];
-  setOffersFiltered: Dispatch<SetStateAction<Offer[]>>;
+  defineOffersFiltered: (offers: Offer[]) => void;
   filterParameters: FilterParameters;
-  setFilterParameters: Dispatch<SetStateAction<FilterParameters>>;
+  defineFilterParameters: (filterParameters: FilterParameters) => void;
 };
 
 export default function ListFilterSearch(props: Props) {
@@ -27,8 +26,8 @@ export default function ListFilterSearch(props: Props) {
         onChange={(e) => {
           const newFilterParameters = structuredClone(props.filterParameters);
           newFilterParameters.Title = e.currentTarget.value;
-          props.setFilterParameters(newFilterParameters);
-          props.setOffersFiltered(
+          props.defineFilterParameters(newFilterParameters);
+          props.defineOffersFiltered(
             FilterOffers(newFilterParameters, props.offers)
           );
         }}

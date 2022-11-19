@@ -3,7 +3,8 @@ import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
   imageURL: string;
   setImageURL: Dispatch<SetStateAction<string>>;
   imageFileURL: string;
@@ -49,7 +50,7 @@ export default function FormImage(props: Props) {
                   newOffer.ImageUrl = props.imageURL;
                   props.setImageFileSelected(false);
                 }
-                props.setOffer(newOffer);
+                props.defineOfferSelected(newOffer);
               }}
             />
             <div
@@ -76,7 +77,7 @@ export default function FormImage(props: Props) {
             onChange={(e) => {
               const newOffer = structuredClone(props.offer);
               newOffer.ImageUrl = e.target.value;
-              props.setOffer(newOffer);
+              props.defineOfferSelected(newOffer);
               props.setImageURL(e.target.value);
             }}
             defaultValue={props.offer.ImageUrl}
@@ -92,7 +93,7 @@ export default function FormImage(props: Props) {
             onChange={(e) => {
               const newOffer = structuredClone(props.offer);
               newOffer.ImageUrl = e.target.value;
-              props.setOffer(newOffer);
+              props.defineOfferSelected(newOffer);
               props.setImageURL(e.target.value);
             }}
             required
@@ -112,7 +113,7 @@ export default function FormImage(props: Props) {
               };
               const newOffer = structuredClone(props.offer);
               newOffer.ImageUrl = URL.createObjectURL(e.currentTarget.files[0]);
-              props.setOffer(newOffer);
+              props.defineOfferSelected(newOffer);
               props.setImageFileURL(
                 URL.createObjectURL(e.currentTarget.files[0])
               );

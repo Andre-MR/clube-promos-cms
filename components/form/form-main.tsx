@@ -1,10 +1,12 @@
 import router from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 import { saveOffer } from "../../database/queries/offers-queries";
+import { ButtonTypes } from "../../models/button-types";
 import Campaign from "../../models/campaign";
 import Category from "../../models/category";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
+import DefaultButton from "../buttons/default-button";
 import FormButtons from "./form-buttons";
 import FormCampaigns from "./form-campaigns";
 import FormCategories from "./form-categories";
@@ -20,8 +22,8 @@ import FormTitle from "./form-title";
 import FormUrl from "./form-url";
 
 type Props = {
-  offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  offerSelected: Offer;
+  defineOfferSelected: (offer: Offer) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
   stores: Store[];
@@ -40,6 +42,11 @@ export default function FormMain(props: Props) {
   const [imageFileURL, setImageFileURL] = useState("");
   const [imageFileSelected, setImageFileSelected] = useState(false);
   const [imageFile, setImageFile] = useState<Buffer | null>(null);
+  const [modal, setModal] = useState(false);
+
+  function handleModal() {
+    setModal(!modal);
+  }
 
   return (
     <div className="h-full w-full">
@@ -51,8 +58,16 @@ export default function FormMain(props: Props) {
           if (e.currentTarget.checkValidity()) {
             props.setLoading(true);
           }
-          if (validateForm(props.offer, imageFileSelected ? imageFile : null)) {
-            await saveOffer(props.offer, imageFileSelected ? imageFile : null);
+          if (
+            validateForm(
+              props.offerSelected,
+              imageFileSelected ? imageFile : null
+            )
+          ) {
+            await saveOffer(
+              props.offerSelected,
+              imageFileSelected ? imageFile : null
+            );
             router.back();
           }
         }}
@@ -60,29 +75,35 @@ export default function FormMain(props: Props) {
         <div className="flex">
           <div className="flex w-2/4">
             <FormStore
-              offer={props.offer}
-              setOffer={props.setOffer}
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
               stores={props.stores}
             />
             <FormCategories
-              offer={props.offer}
-              setOffer={props.setOffer}
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
               categories={props.categories}
             />
           </div>
           <div className="flex w-1/4">
-            <FormPriority offer={props.offer} setOffer={props.setOffer} />
+            <FormPriority
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
           </div>
           <div className="flex w-1/4">
-            <FormExpired offer={props.offer} setOffer={props.setOffer} />
+            <FormExpired
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
           </div>
         </div>
 
         <div className="flex">
           <div className="flex w-2/4">
             <FormImage
-              offer={props.offer}
-              setOffer={props.setOffer}
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
               imageURL={imageURL}
               setImageURL={setImageURL}
               imageFileURL={imageFileURL}
@@ -94,25 +115,43 @@ export default function FormMain(props: Props) {
             />
           </div>
           <div className="flex w-2/4">
-            <FormPrice offer={props.offer} setOffer={props.setOffer} />
-            <FormOldPrice offer={props.offer} setOffer={props.setOffer} />
-            <FormCode offer={props.offer} setOffer={props.setOffer} />
+            <FormPrice
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
+            <FormOldPrice
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
+            <FormCode
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
           </div>
         </div>
 
         <div className="mt-2 flex">
-          <FormTitle offer={props.offer} setOffer={props.setOffer} />
+          <FormTitle
+            offer={props.offerSelected}
+            defineOfferSelected={props.defineOfferSelected}
+          />
         </div>
 
         <div className="flex h-full w-full">
           <div className="flex w-3/4 flex-col space-y-2">
-            <FormUrl offer={props.offer} setOffer={props.setOffer} />
-            <FormDescription offer={props.offer} setOffer={props.setOffer} />
+            <FormUrl
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
+            <FormDescription
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
+            />
           </div>
           <div className="flex w-1/4 flex-col space-y-2">
             <FormCampaigns
-              offer={props.offer}
-              setOffer={props.setOffer}
+              offer={props.offerSelected}
+              defineOfferSelected={props.defineOfferSelected}
               campaigns={props.campaigns}
             />
           </div>
@@ -123,16 +162,44 @@ export default function FormMain(props: Props) {
           className="flex h-[10%] w-full flex-col justify-center"
         >
           <FormButtons
-            offer={props.offer}
-            setOffer={props.setOffer}
+            offerSelected={props.offerSelected}
+            defineOfferSelected={props.defineOfferSelected}
             stores={props.stores}
             imageFile={imageFile}
             imageFileSelected={imageFileSelected}
             setLoading={props.setLoading}
             loading={props.loading}
+            handleModal={handleModal}
           />
         </div>
       </form>
+      {modal ? (
+        <div
+          title="modal"
+          className="absolute top-0 z-40 flex h-screen w-screen items-center justify-center"
+        >
+          <div className="z-40 flex h-48 w-96 flex-col items-center justify-center space-y-10 rounded bg-white">
+            <p className="text-xl font-semibold">Excluir oferta?</p>
+            <div className="flex space-x-10">
+              <button onClick={handleModal}>
+                <DefaultButton text="Cancelar" type={ButtonTypes.Secondary} />
+              </button>
+              <button
+                onClick={async () => {
+                  await saveOffer(
+                    props.offerSelected,
+                    imageFileSelected ? imageFile : null
+                  );
+                  router.back();
+                }}
+              >
+                <DefaultButton text="Excluir" type={ButtonTypes.Danger} />
+              </button>
+            </div>
+          </div>
+          <div className="absolute top-0 flex h-full w-full bg-black opacity-50"></div>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { QueryPeriods } from "../database/queries/offers-queries";
+
 const enum FilterKeys {
   None = "",
   Active = "Active",
@@ -14,6 +16,7 @@ const enum SortKeys {
 }
 
 class FilterParameters {
+  Period: QueryPeriods;
   Sort: SortKeys;
   Active: string;
   Store: string;
@@ -22,7 +25,8 @@ class FilterParameters {
   Title: string;
 
   constructor() {
-    this.Sort = SortKeys.Created;
+    this.Period = QueryPeriods.Days30;
+    this.Sort = SortKeys.Updated;
     this.Active = "";
     this.Store = "";
     this.Category = "";

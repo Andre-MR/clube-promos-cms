@@ -3,7 +3,8 @@ import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function FormPriority(props: Props) {
@@ -15,7 +16,7 @@ export default function FormPriority(props: Props) {
         onChange={(e) => {
           const newOffer = structuredClone(props.offer);
           newOffer.Priority = Number.parseInt(e.currentTarget.value);
-          props.setOffer(newOffer);
+          props.defineOfferSelected(newOffer);
         }}
         defaultValue={props.offer.SK ? props.offer.Priority : 1}
       >

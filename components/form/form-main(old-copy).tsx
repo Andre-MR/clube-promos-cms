@@ -129,7 +129,7 @@ export default function FormMain(props: Props) {
           className="flex h-[10%] w-full flex-col justify-center"
         >
           <FormButtons
-            offer={props.offer}
+            offerSelected={props.offer}
             setOffer={props.setOffer}
             stores={props.stores}
             imageFile={imageFile}

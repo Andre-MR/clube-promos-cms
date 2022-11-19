@@ -1,5 +1,6 @@
 import Offer from "../models/offer";
 import { FilterParameters, SortKeys } from "../models/filter-parameters";
+import SanitizeURL from "./sanitize-url";
 
 function SortOffers(key: SortKeys, offers: Offer[]) {
   const filteredOffers = JSON.parse(JSON.stringify(offers)) as Offer[];
@@ -46,8 +47,8 @@ function FilterOffers(filterParameters: FilterParameters, offers: Offer[]) {
 
   if (filterParameters.Title) {
     offersFiltered = offersFiltered.filter((offer) => {
-      return offer.Title.toLowerCase().includes(
-        filterParameters.Title.toLowerCase()
+      return SanitizeURL(offer.Title).includes(
+        SanitizeURL(filterParameters.Title)
       )
         ? offer
         : null;

@@ -3,7 +3,8 @@ import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function FormExpired(props: Props) {
@@ -19,7 +20,7 @@ export default function FormExpired(props: Props) {
         onChange={(e) => {
           const newOffer = structuredClone(props.offer);
           newOffer.Expired = new Date(e.currentTarget.value);
-          props.setOffer(newOffer);
+          props.defineOfferSelected(newOffer);
         }}
         defaultValue={props.offer.SK && props.offer.Expired ? expiredDate : ""}
       />

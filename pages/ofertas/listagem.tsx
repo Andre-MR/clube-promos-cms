@@ -1,6 +1,6 @@
 import { NextPage, GetServerSideProps } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardPreview from "../../components/card/card-main/card-preview";
 import MainFooter from "../../components/footer/main-footer";
 import FormHeader from "../../components/form/form-header";
@@ -17,6 +17,7 @@ import { SortKeys } from "../../models/filter-parameters";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
 import { SortOffers } from "../../utils/offers-sorter-filter";
+import { useApp } from "../../context/AppContext";
 
 type Props = {
   offers: Offer[];
@@ -26,11 +27,28 @@ type Props = {
 };
 
 const ListOffers: NextPage<Props> = (props) => {
+  const {
+    scrollY,
+    defineScrollY,
+    offerSelected,
+    defineOfferSelected,
+    offersFiltered,
+    defineOffersFiltered,
+    filterParameters,
+    defineFilterParameters,
+  } = useApp();
   const [offers, setOffers] = useState(props.offers);
-  const [offerSelected, setOfferSelected] = useState<Offer>(
-    props.offers ? props.offers[0] : new Offer()
-  );
-  const [offersFiltered, setOffersFiltered] = useState(props.offers);
+  const [stores, setStores] = useState(props.stores);
+
+  useEffect(() => {
+    if (!offerSelected.SK) {
+      defineOfferSelected(props.offers[0]);
+    }
+    if (offersFiltered.length <= 0) {
+      defineOffersFiltered(props.offers);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -56,18 +74,24 @@ const ListOffers: NextPage<Props> = (props) => {
                 offers={offers}
                 setOffers={setOffers}
                 offersFiltered={offersFiltered}
-                setOffersFiltered={setOffersFiltered}
-                setOfferSelected={setOfferSelected}
+                defineOffersFiltered={defineOffersFiltered}
+                defineOfferSelected={defineOfferSelected}
                 stores={props.stores}
                 categories={props.categories}
                 campaigns={props.campaigns}
+                filterParameters={filterParameters}
+                defineFilterParameters={defineFilterParameters}
               />
             </div>
             <div className="h-[90%] pt-2">
               <ListOffersResult
+                scrollY={scrollY}
+                defineScrollY={defineScrollY}
                 offers={offersFiltered}
-                setOfferSelected={setOfferSelected}
-                stores={props.stores}
+                setOffers={setOffers}
+                stores={stores}
+                setStores={setStores}
+                defineOfferSelected={defineOfferSelected}
                 offerSelected={offerSelected}
               />
             </div>
@@ -92,13 +116,13 @@ const ListOffers: NextPage<Props> = (props) => {
 export default ListOffers;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const offers = await getOffers(QueryPeriods.Days7);
+  const offers = await getOffers(QueryPeriods.Days30);
   const stores = await awsGetStores();
   const categories = await awsGetCategories();
   const campaigns = await awsGetCampaigns();
   return {
     props: {
-      offers: SortOffers(SortKeys.Updated, offers) || offers,
+      offers: SortOffers(SortKeys.Updated, offers),
       stores: stores,
       categories: categories,
       campaigns: campaigns,

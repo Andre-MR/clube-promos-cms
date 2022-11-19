@@ -1,6 +1,8 @@
 import Link from "next/link";
 import router from "next/router";
 import { useState } from "react";
+import { useApp } from "../../context/AppContext";
+import Offer from "../../models/offer";
 
 const hamburgerStyles = {
   open: {
@@ -28,15 +30,17 @@ export default function MainHeader() {
       setHamburgerStyle(hamburgerStyles.open);
     }
   };
+  const { defineOfferSelected } = useApp();
 
   return (
     <nav className="sticky top-0 z-30 m-auto flex w-full items-center justify-between bg-fuchsia-900">
       <div className="relative flex w-full flex-wrap items-center justify-between">
         <div className="relative z-10 flex w-full items-center justify-between p-1">
-          <div className="flex">
+          <div className="flex w-20">
             <button
               className="ml-2 flex items-center text-white"
               onClick={() => {
+                defineOfferSelected(new Offer());
                 router.back();
               }}
             >
@@ -57,7 +61,10 @@ export default function MainHeader() {
             {process.env.NEXT_PUBLIC_MAIN_TITLE}
           </h1>
 
-          <button className="group relative mx-2 flex" onClick={hamburgerClick}>
+          <button
+            className="group relative mx-2 flex w-20 justify-end"
+            onClick={hamburgerClick}
+          >
             <div className="relative m-1 flex h-[35px] w-[35px] items-center justify-center overflow-hidden transition-all duration-200">
               <div className="flex h-1/2 w-2/3 origin-center transform flex-col justify-between overflow-hidden transition-all duration-200">
                 <div

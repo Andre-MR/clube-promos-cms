@@ -3,7 +3,8 @@ import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function FormPrice(props: Props) {
@@ -24,7 +25,7 @@ export default function FormPrice(props: Props) {
         onChange={(e) => {
           const newOffer = structuredClone(props.offer);
           newOffer.Price = Number.parseFloat(e.currentTarget.value);
-          props.setOffer(newOffer);
+          props.defineOfferSelected(newOffer);
         }}
         onBlur={(e) => {
           e.currentTarget.value = Number.parseFloat(

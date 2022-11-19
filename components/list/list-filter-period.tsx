@@ -2,14 +2,16 @@ import { Dispatch, SetStateAction } from "react";
 import { getOffers, QueryPeriods } from "../../database/queries/offers-queries";
 import { FilterParameters } from "../../models/filter-parameters";
 import Offer from "../../models/offer";
+import { FilterOffers } from "../../utils/offers-sorter-filter";
 
 type Props = {
   offers: Offer[];
   setOffers: Dispatch<SetStateAction<Offer[]>>;
   offersFiltered: Offer[];
-  setOffersFiltered: Dispatch<SetStateAction<Offer[]>>;
-  setFilterParameters: Dispatch<SetStateAction<FilterParameters>>;
-  setOfferSelected: Dispatch<SetStateAction<Offer>>;
+  defineOffersFiltered: (offers: Offer[]) => void;
+  defineOfferSelected: (offer: Offer) => void;
+  filterParameters: FilterParameters;
+  defineFilterParameters: (filterParameters: FilterParameters) => void;
 };
 
 export default function ListFilterPeriod(props: Props) {
@@ -18,18 +20,23 @@ export default function ListFilterPeriod(props: Props) {
       <select
         className="w-full p-1 text-sm"
         onChange={async (e) => {
-          const newOffers = await getOffers(
-            e.currentTarget.value as QueryPeriods
-          );
+          const queryPeriod = e.currentTarget.value as QueryPeriods;
+          const newOffers = await getOffers(queryPeriod);
           if (newOffers) {
-            props.setOfferSelected(newOffers[0]);
-            const newFilterParameters = new FilterParameters();
-            props.setFilterParameters(newFilterParameters);
+            const newFilterParameters = structuredClone(props.filterParameters);
+            newFilterParameters.Period = queryPeriod;
+            props.defineFilterParameters(newFilterParameters);
+            const newOffersFiltered = FilterOffers(
+              newFilterParameters,
+              newOffers
+            );
+            props.defineOffersFiltered(newOffersFiltered);
+            props.defineOfferSelected(newOffersFiltered[0] || new Offer());
+            // const newFilterParameters = new FilterParameters();
             props.setOffers(newOffers);
-            props.setOffersFiltered(newOffers);
           }
         }}
-        defaultValue={QueryPeriods.Days7}
+        value={props.filterParameters.Period}
       >
         <option key={1} value={QueryPeriods.Today}>
           Hoje

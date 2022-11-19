@@ -3,7 +3,8 @@ import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function FormCode(props: Props) {
@@ -28,7 +29,7 @@ export default function FormCode(props: Props) {
               } else {
                 newOffer.Code = "";
               }
-              props.setOffer(newOffer);
+              props.defineOfferSelected(newOffer);
               setCodeField(!e.currentTarget.checked);
             }}
             checked={!codeField}
@@ -63,7 +64,7 @@ export default function FormCode(props: Props) {
         onChange={(e) => {
           const newOffer = structuredClone(props.offer);
           newOffer.Code = e.target.value;
-          props.setOffer(newOffer);
+          props.defineOfferSelected(newOffer);
           setCodeValue(e.target.value);
         }}
         defaultValue={!codeField ? props.offer.Code : ""}

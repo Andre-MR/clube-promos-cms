@@ -1,10 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
   stores: Store[];
 };
 
@@ -17,9 +16,9 @@ export default function FormStore(props: Props) {
         onChange={(e) => {
           const newOffer = structuredClone(props.offer);
           newOffer.Store = e.target.value;
-          props.setOffer(newOffer);
+          props.defineOfferSelected(newOffer);
         }}
-        defaultValue={props.offer.SK ? props.offer.Store : "Amazon"}
+        defaultValue={props.offer.SK ? props.offer.Store : "Lojas Online"}
       >
         {props.stores.map((store) => {
           return (

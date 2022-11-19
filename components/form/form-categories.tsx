@@ -1,10 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
 import Category from "../../models/category";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
   categories: Category[];
 };
 
@@ -14,7 +13,12 @@ export default function FormCategories(props: Props) {
       <label htmlFor="priority">Categoria</label>
       <select
         className="h-full rounded py-1 px-1"
-        defaultValue={props.offer.Category}
+        onChange={(e) => {
+          const newOffer = structuredClone(props.offer);
+          newOffer.Category = e.target.value;
+          props.defineOfferSelected(newOffer);
+        }}
+        defaultValue={props.offer.SK ? props.offer.Category : ""}
       >
         {props.categories.map((category) => {
           return (

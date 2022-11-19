@@ -105,7 +105,7 @@ async function awsUpdateOffer(offer: Offer, imageFile: Buffer | null) {
   let params = {
     TableName: Table!,
     Key: { PK: offer.PK, SK: offer.SK },
-    UpdateExpression: `SET Active = :active, Campaigns = :campaigns, Categories = :categories, 
+    UpdateExpression: `SET Active = :active, Campaigns = :campaigns, Category = :category, 
                       Code = :code, Description = :description, Expired = :expired, ImageUrl = :imageUrl, 
                       OldPrice = :oldPrice, Price = :price, Priority = :priority, #aliasStore = :aliasStore, Title = :title, 
                       Updated = :updated, #aliasUrl = :aliasUrl`,
@@ -136,4 +136,17 @@ async function awsUpdateOffer(offer: Offer, imageFile: Buffer | null) {
   return result;
 }
 
-export { awsGetOffers, awsCreateOffer, awsUpdateOffer };
+async function awsDeleteOffer(offer: Offer) {
+  let params = {
+    TableName: Table!,
+    Key: {
+      PK: offer.PK,
+      SK: offer.SK,
+    },
+  };
+
+  const result = await db.delete(params).promise();
+  return result;
+}
+
+export { awsGetOffers, awsCreateOffer, awsUpdateOffer, awsDeleteOffer };

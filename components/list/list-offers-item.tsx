@@ -1,7 +1,7 @@
 import Offer from "../../models/offer";
 import Image from "next/image";
 import CardLogoStore from "../card/card-logos/card-logo-store";
-import { Dispatch, SetStateAction, useEffect } from "react";
+// import { Dispatch, SetStateAction, useEffect } from "react";
 import Store from "../../models/store";
 import { useRouter } from "next/router";
 import DateFormatter from "../../utils/date-converter-br";
@@ -11,7 +11,8 @@ type Props = {
   offer: Offer;
   stores: Store[];
   offerSelected: Offer;
-  setOfferSelected: Dispatch<SetStateAction<Offer>>;
+  // setOfferSelected: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function ListOffersItem(props: Props) {
@@ -22,19 +23,24 @@ export default function ListOffersItem(props: Props) {
       <div
         className={
           props.itemKey == props.offerSelected.SK
-            ? "flex w-full cursor-pointer justify-between border bg-slate-200 p-1 shadow-md hover:bg-slate-100"
+            ? "flex w-full cursor-pointer justify-between border bg-cyan-50 p-1 shadow-md hover:bg-cyan-50"
             : props.offer.Active
             ? "flex w-full cursor-pointer justify-between border p-1 shadow-md  hover:bg-slate-100"
-            : "flex w-full cursor-pointer justify-between border-2 border-dashed border-gray-300 bg-gray-200 p-1 shadow-md hover:bg-slate-100"
+            : "flex w-full cursor-pointer justify-between border-2 border-dashed border-gray-300 bg-gray-200 p-1 shadow-md hover:bg-slate-50"
         }
         onClick={() => {
-          props.setOfferSelected(props.offer);
+          // props.setOfferSelected(props.offer);
+          props.defineOfferSelected(props.offer);
         }}
         onDoubleClick={() => {
-          props.setOfferSelected(props.offer);
+          // props.setOfferSelected(props.offer);
+          props.defineOfferSelected(props.offer);
+          // router.push({
+          //   pathname: "/ofertas/edicao",
+          //   query: { offer: JSON.stringify(props.offerSelected) },
+          // });
           router.push({
             pathname: "/ofertas/edicao",
-            query: { offer: JSON.stringify(props.offerSelected) },
           });
         }}
       >

@@ -6,13 +6,13 @@ type Props = {
 };
 
 export default function CardLogoSocialWhatsapp(props: Props) {
-  const sanitizedURL = props.offer ? SanitizeURL(props.offer.Title) : "";
+  // const sanitizedURL = props.offer ? SanitizeURL(props.offer.Title) : "";
 
   return (
     <a
       target={"_blank"}
       rel="noreferrer"
-      href={`https://api.whatsapp.com/send?text=*${sanitizedURL.replace(
+      href={`https://api.whatsapp.com/send?text=*${props.offer.Title.replace(
         /\*/g,
         ""
       )}*%0A${props.offer.Url}`}

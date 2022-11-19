@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import Store from "../../models/store";
 import Offer from "../../models/offer";
 import { FilterKeys, FilterParameters } from "../../models/filter-parameters";
@@ -8,26 +7,25 @@ type Props = {
   stores: Store[];
   offers: Offer[];
   offersFiltered: Offer[];
-  setOffersFiltered: Dispatch<SetStateAction<Offer[]>>;
+  defineOffersFiltered: (offers: Offer[]) => void;
   filterParameters: FilterParameters;
-  setFilterParameters: Dispatch<SetStateAction<FilterParameters>>;
+  defineFilterParameters: (filterParameters: FilterParameters) => void;
 };
 
 export default function ListFilterStore(props: Props) {
   return (
     <div className="flex rounded border shadow shadow-gray-400">
-      {/* <label htmlFor="priority">Loja</label> */}
       <select
         className="p-1 text-sm"
         onChange={(e) => {
           const newFilterParameters = structuredClone(props.filterParameters);
           newFilterParameters.Store = e.currentTarget.value;
-          props.setFilterParameters(newFilterParameters);
-          props.setOffersFiltered(
+          props.defineFilterParameters(newFilterParameters);
+          props.defineOffersFiltered(
             FilterOffers(newFilterParameters, props.offers)
           );
         }}
-        defaultValue={FilterKeys.None}
+        value={props.filterParameters.Store}
       >
         <option key={0} value={FilterKeys.None}>
           Loja

@@ -3,6 +3,7 @@ import {
   awsGetOffers,
   awsCreateOffer,
   awsUpdateOffer,
+  awsDeleteOffer,
 } from "../../../database/aws/dynamo-offers";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -15,6 +16,14 @@ async function saveOffer(offer: Offer, imageFile: Buffer | null) {
     return await awsUpdateOffer(offer, imageFile);
   } else {
     return await awsCreateOffer(offer, imageFile);
+  }
+}
+
+async function deleteOffer(offer: Offer) {
+  if (offer.SK) {
+    return await awsDeleteOffer(offer);
+  } else {
+    return false;
   }
 }
 
@@ -34,6 +43,8 @@ export default async function handler(
           req.body.imageFile ? Buffer.from(req.body.imageFile.data) : null
         )
       );
+    case "DELETE":
+      return res.json(await deleteOffer(req.body.offer));
     default:
       res.setHeader("Allow", ["GET", "POST", "PUT"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);

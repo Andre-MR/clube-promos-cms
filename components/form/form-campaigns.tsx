@@ -4,7 +4,8 @@ import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
   campaigns: Campaign[];
 };
 
@@ -38,7 +39,7 @@ export default function FormCampaigns(props: Props) {
                 if (e.currentTarget.selected) {
                   const newOffer = structuredClone(props.offer);
                   newOffer.Campaigns.push(e.currentTarget.value);
-                  props.setOffer(newOffer);
+                  props.defineOfferSelected(newOffer);
                 }
 
                 if (!e.currentTarget.selected) {
@@ -46,7 +47,7 @@ export default function FormCampaigns(props: Props) {
                   newOffer.Campaigns.slice(
                     newOffer.Campaigns.indexOf(e.currentTarget.value)
                   );
-                  props.setOffer(newOffer);
+                  props.defineOfferSelected(newOffer);
                 }
               }}
             >
@@ -71,7 +72,7 @@ export default function FormCampaigns(props: Props) {
                 if (e.currentTarget.selected) {
                   const newOffer = structuredClone(props.offer);
                   newOffer.Campaigns.push(e.currentTarget.value);
-                  props.setOffer(newOffer);
+                  props.defineOfferSelected(newOffer);
                 }
 
                 if (!e.currentTarget.selected) {
@@ -79,7 +80,7 @@ export default function FormCampaigns(props: Props) {
                   newOffer.Campaigns.slice(
                     newOffer.Campaigns.indexOf(e.currentTarget.value)
                   );
-                  props.setOffer(newOffer);
+                  props.defineOfferSelected(newOffer);
                 }
               }}
             >

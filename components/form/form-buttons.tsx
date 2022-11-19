@@ -7,38 +7,46 @@ import DefaultButton from "../buttons/default-button";
 import LoadingIcon from "../buttons/loading-icon";
 
 type Props = {
-  offer: Offer;
-  setOffer: Dispatch<SetStateAction<Offer>>;
+  offerSelected: Offer;
+  // setOffer: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
   stores: Store[];
   imageFileSelected: boolean;
   imageFile: Buffer | null;
+  handleModal: () => void;
 };
 
 export default function FormButtons(props: Props) {
   const [offerActive, setOfferActive] = useState(true);
   return (
     <div className="my-2 flex justify-center">
-      {props.offer.SK ? (
-        offerActive ? (
-          <DefaultButton text={"Duplicar"} type={ButtonTypes.Info} />
+      <div className="relative cursor-pointer">
+        {props.offerSelected.SK ? (
+          offerActive ? (
+            <button type="submit" formMethod="post">
+              <DefaultButton text={"Duplicar"} type={ButtonTypes.Info} />
+            </button>
+          ) : (
+            <button type="submit" formMethod="post" onClick={props.handleModal}>
+              <DefaultButton text={"Excluir"} type={ButtonTypes.Danger} />
+            </button>
+          )
         ) : (
-          <DefaultButton text={"Excluir"} type={ButtonTypes.Danger} />
-        )
-      ) : (
-        <button
-          type="reset"
-          value={"Limpar"}
-          onClick={() => {
-            const newOffer = new Offer();
-            newOffer.Store = props.stores[props.stores.length - 1].toString();
-            props.setOffer(new Offer());
-          }}
-        >
-          <DefaultButton text={"Limpar"} type={ButtonTypes.Secondary} />
-        </button>
-      )}
+          <button
+            type="reset"
+            value={"Limpar"}
+            onClick={() => {
+              const newOffer = new Offer();
+              newOffer.Store = props.stores[props.stores.length - 1].toString();
+              props.defineOfferSelected(new Offer());
+            }}
+          >
+            <DefaultButton text={"Limpar"} type={ButtonTypes.Secondary} />
+          </button>
+        )}
+      </div>
       <div className="mx-20 flex items-center justify-center">
         <label htmlFor="active" className="flex items-center ">
           <input
@@ -75,9 +83,15 @@ export default function FormButtons(props: Props) {
       </div>
       <div className="relative cursor-pointer">
         {offerActive ? (
-          <button type="submit" formMethod="post">
-            <DefaultButton text={"Publicar"} type={ButtonTypes.Primary} />
-          </button>
+          props.offerSelected.SK ? (
+            <button type="submit" formMethod="post">
+              <DefaultButton text={"Atualizar"} type={ButtonTypes.Primary} />
+            </button>
+          ) : (
+            <button type="submit" formMethod="post">
+              <DefaultButton text={"Publicar"} type={ButtonTypes.Primary} />
+            </button>
+          )
         ) : (
           <button type="submit" formMethod="post">
             <DefaultButton text={"Salvar"} type={ButtonTypes.Success} />

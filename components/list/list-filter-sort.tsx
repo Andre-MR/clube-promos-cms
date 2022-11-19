@@ -1,14 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
 import Offer from "../../models/offer";
-import { FilterOffers, SortOffers } from "../../utils/offers-sorter-filter";
+import { FilterOffers } from "../../utils/offers-sorter-filter";
 import { FilterParameters, SortKeys } from "../../models/filter-parameters";
 
 type Props = {
   offers: Offer[];
   offersFiltered: Offer[];
-  setOffersFiltered: Dispatch<SetStateAction<Offer[]>>;
+  defineOffersFiltered: (offers: Offer[]) => void;
   filterParameters: FilterParameters;
-  setFilterParameters: Dispatch<SetStateAction<FilterParameters>>;
+  defineFilterParameters: (filterParameters: FilterParameters) => void;
 };
 
 export default function ListFilterSort(props: Props) {
@@ -20,12 +19,12 @@ export default function ListFilterSort(props: Props) {
           e.preventDefault();
           const newFilterParameters = structuredClone(props.filterParameters);
           newFilterParameters.Sort = e.currentTarget.value as SortKeys;
-          props.setFilterParameters(newFilterParameters);
-          props.setOffersFiltered(
+          props.defineFilterParameters(newFilterParameters);
+          props.defineOffersFiltered(
             FilterOffers(newFilterParameters, props.offers)
           );
         }}
-        defaultValue={SortKeys.Updated}
+        value={props.filterParameters.Sort}
       >
         <option key={1} value={SortKeys.Updated}>
           Atualização

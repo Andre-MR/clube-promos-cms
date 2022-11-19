@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Campaign from "../../models/campaign";
 import Category from "../../models/category";
 import Offer from "../../models/offer";
@@ -16,18 +16,16 @@ type Props = {
   offers: Offer[];
   setOffers: Dispatch<SetStateAction<Offer[]>>;
   offersFiltered: Offer[];
-  setOffersFiltered: Dispatch<SetStateAction<Offer[]>>;
+  defineOffersFiltered: (offers: Offer[]) => void;
   stores: Store[];
   categories: Category[];
   campaigns: Campaign[];
-  setOfferSelected: Dispatch<SetStateAction<Offer>>;
+  defineOfferSelected: (offer: Offer) => void;
+  filterParameters: FilterParameters;
+  defineFilterParameters: (filterParameters: FilterParameters) => void;
 };
 
 export default function ListOffersHeader(props: Props) {
-  const [filterParameters, setFilterParameters] = useState(
-    new FilterParameters()
-  );
-
   return (
     <div className="flex w-full items-center justify-between space-x-2 px-3">
       <div className="flex space-x-2">
@@ -35,57 +33,58 @@ export default function ListOffersHeader(props: Props) {
           offers={props.offers}
           setOffers={props.setOffers}
           offersFiltered={props.offersFiltered}
-          setOffersFiltered={props.setOffersFiltered}
-          setFilterParameters={setFilterParameters}
-          setOfferSelected={props.setOfferSelected}
+          defineOffersFiltered={props.defineOffersFiltered}
+          filterParameters={props.filterParameters}
+          defineFilterParameters={props.defineFilterParameters}
+          defineOfferSelected={props.defineOfferSelected}
         />
         <ListFilterSort
           offers={props.offers}
           offersFiltered={props.offersFiltered}
-          setOffersFiltered={props.setOffersFiltered}
-          filterParameters={filterParameters}
-          setFilterParameters={setFilterParameters}
+          defineOffersFiltered={props.defineOffersFiltered}
+          filterParameters={props.filterParameters}
+          defineFilterParameters={props.defineFilterParameters}
         />
       </div>
       <div className="flex space-x-2">
         <ListFilterActive
           offers={props.offers}
           offersFiltered={props.offersFiltered}
-          setOffersFiltered={props.setOffersFiltered}
-          filterParameters={filterParameters}
-          setFilterParameters={setFilterParameters}
+          defineOffersFiltered={props.defineOffersFiltered}
+          filterParameters={props.filterParameters}
+          defineFilterParameters={props.defineFilterParameters}
         />
         <ListFilterStore
           stores={props.stores}
           offers={props.offers}
           offersFiltered={props.offersFiltered}
-          setOffersFiltered={props.setOffersFiltered}
-          filterParameters={filterParameters}
-          setFilterParameters={setFilterParameters}
+          defineOffersFiltered={props.defineOffersFiltered}
+          filterParameters={props.filterParameters}
+          defineFilterParameters={props.defineFilterParameters}
         />
         <ListFilterCategory
           categories={props.categories}
           offers={props.offers}
           offersFiltered={props.offersFiltered}
-          setOffersFiltered={props.setOffersFiltered}
-          filterParameters={filterParameters}
-          setFilterParameters={setFilterParameters}
+          defineOffersFiltered={props.defineOffersFiltered}
+          filterParameters={props.filterParameters}
+          defineFilterParameters={props.defineFilterParameters}
         />
         <ListFilterCampaign
           campaigns={props.campaigns}
           offers={props.offers}
           offersFiltered={props.offersFiltered}
-          setOffersFiltered={props.setOffersFiltered}
-          filterParameters={filterParameters}
-          setFilterParameters={setFilterParameters}
+          defineOffersFiltered={props.defineOffersFiltered}
+          filterParameters={props.filterParameters}
+          defineFilterParameters={props.defineFilterParameters}
         />
         <div className="flex w-80">
           <ListFilterSearch
             offers={props.offers}
             offersFiltered={props.offersFiltered}
-            setOffersFiltered={props.setOffersFiltered}
-            filterParameters={filterParameters}
-            setFilterParameters={setFilterParameters}
+            defineOffersFiltered={props.defineOffersFiltered}
+            filterParameters={props.filterParameters}
+            defineFilterParameters={props.defineFilterParameters}
           />
         </div>
       </div>
