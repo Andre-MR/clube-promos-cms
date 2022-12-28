@@ -12,7 +12,7 @@ export default function FormCoupon(props: Props) {
     props.offer.SK && props.offer.Coupon ? false : true
   );
   return (
-    <div className="mx-5 flex w-2/4 flex-col space-y-1">
+    <div title="cupom" className="mx-5 flex w-2/4 flex-col space-y-1">
       <div className="flex items-center">
         <label htmlFor="coupon" className="flex items-center">
           <input

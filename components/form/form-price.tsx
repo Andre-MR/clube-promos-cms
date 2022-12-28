@@ -9,7 +9,7 @@ type Props = {
 export default function FormPrice(props: Props) {
   const [priceEditing, setPriceEditing] = useState(false);
   return (
-    <div className="mx-5 flex w-1/4 flex-col space-y-1">
+    <div title="preço" className="mx-5 flex w-1/4 flex-col space-y-1">
       <label className="flex items-center" htmlFor="price">
         Preço
       </label>

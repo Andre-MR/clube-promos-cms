@@ -7,7 +7,7 @@ type Props = {
 
 export default function FormPriority(props: Props) {
   return (
-    <div className="mx-5 flex w-full flex-col space-y-1">
+    <div title="prioridade" className="mx-5 flex w-full flex-col space-y-1">
       <label htmlFor="priority">Prioridade</label>
       <select
         className="h-8 rounded py-1 px-1"

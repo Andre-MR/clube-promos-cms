@@ -14,7 +14,7 @@ export default function FormOldPrice(props: Props) {
   const [priceEditing, setPriceEditing] = useState(false);
 
   return (
-    <div className="flex w-1/4 flex-col space-y-1">
+    <div title="anterior" className="flex w-1/4 flex-col space-y-1">
       <label htmlFor="oldPrice" className="flex items-center">
         <input
           className="peer sr-only"

@@ -1,6 +1,6 @@
 export default function MainFooter() {
   return (
-    <footer className="sticky bottom-0 z-30 flex h-full w-full flex-col items-center justify-between space-y-1 bg-fuchsia-900 p-1 shadow-md transition">
+    <footer className="sticky bottom-0 z-30 flex h-full w-full flex-col items-center justify-between space-y-1 bg-fuchsia-900 px-3 shadow-md transition">
       <div className="flex h-full w-full items-center justify-between text-xs text-gray-200">
         <p>{process.env.NEXT_PUBLIC_FOOTER_1}</p>
         <p>

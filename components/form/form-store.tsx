@@ -11,7 +11,7 @@ type Props = {
 
 export default function FormStore(props: Props) {
   return (
-    <div className="mx-5 flex w-full flex-col space-y-1">
+    <div title="loja" className="mx-5 flex w-full flex-col space-y-1">
       <label htmlFor="priority">Loja</label>
       <select
         ref={props.resultRef}

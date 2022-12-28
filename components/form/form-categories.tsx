@@ -9,7 +9,10 @@ type Props = {
 
 export default function FormCategories(props: Props) {
   return (
-    <div className="mx-5 flex h-full w-full flex-col space-y-1">
+    <div
+      title="categoria"
+      className="mx-5 flex h-full w-full flex-col space-y-1"
+    >
       <label htmlFor="priority">Categoria</label>
       <select
         className="h-full rounded py-1 px-1"

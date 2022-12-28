@@ -3,6 +3,7 @@ import Offer from "../../../models/offer";
 export default function CardPrice({ offer }: { offer: Offer }) {
   return (
     <a
+      title="preço"
       className="mb-1 flex flex-col justify-between"
       target={"_blank"}
       rel="noreferrer"

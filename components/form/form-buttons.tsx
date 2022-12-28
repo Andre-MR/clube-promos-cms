@@ -20,7 +20,7 @@ type Props = {
 export default function FormButtons(props: Props) {
   const [offerActive, setOfferActive] = useState(true);
   return (
-    <div className="my-2 flex justify-center">
+    <div title="" className="my-2 flex justify-center">
       <div className="relative cursor-pointer">
         {props.offerSelected.SK ? (
           offerActive ? (

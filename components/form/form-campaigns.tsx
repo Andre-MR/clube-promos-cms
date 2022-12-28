@@ -9,7 +9,7 @@ type Props = {
 
 export default function FormCampaigns(props: Props) {
   return (
-    <div className="mx-5 flex h-full flex-col space-y-1">
+    <div title="campanhas" className="mx-5 flex h-full flex-col space-y-1">
       <label htmlFor="priority">Campanhas</label>
       <select
         className="h-full rounded py-1 px-1"

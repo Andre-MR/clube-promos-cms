@@ -36,7 +36,7 @@ export default function MainHeader(props: Props) {
   return (
     <nav className="sticky top-0 z-30 m-auto flex w-full items-center justify-between bg-fuchsia-900">
       <div className="relative flex w-full flex-wrap items-center justify-between">
-        <div className="relative z-10 flex w-full items-center justify-between p-1">
+        <div className="relative z-10 flex w-full items-center justify-between">
           <div className="flex w-20">
             {!props.homePage ? (
               <button

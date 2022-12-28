@@ -7,7 +7,7 @@ type Props = {
 
 export default function FormTitle(props: Props) {
   return (
-    <div title="line5" className="flex w-full flex-col space-y-1 px-5">
+    <div title="título" className="flex w-full flex-col space-y-1 px-5">
       <label htmlFor="title">Título</label>
       <input
         className="flex h-8 w-full rounded py-1 px-2"

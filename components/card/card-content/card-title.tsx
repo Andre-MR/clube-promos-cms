@@ -10,7 +10,7 @@ export default function CardOffer({ offer }: { offer: Offer }) {
     offer.Title = offer.Title.substring(0, offer.Title.length - 1);
   }
   return (
-    <div className="flex flex-col items-center px-2">
+    <div title="título" className="flex flex-col items-center px-2">
       <a
         className="flex h-full flex-col justify-between"
         target={"_blank"}
