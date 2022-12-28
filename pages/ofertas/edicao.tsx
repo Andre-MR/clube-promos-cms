@@ -40,7 +40,7 @@ const EditOffer: NextPage<Props> = (props) => {
       </Head>
       <main className="flex h-screen w-screen flex-col justify-start bg-gradient-to-b from-gray-300 to-gray-100">
         <div className="flex h-[6%]">
-          <MainHeader />
+          <MainHeader homePage={false} />
         </div>
 
         <div className="flex h-full">

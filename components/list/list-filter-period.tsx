@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { getOffers, QueryPeriods } from "../../database/queries/offers-queries";
 import { FilterParameters } from "../../models/filter-parameters";
 import Offer from "../../models/offer";
@@ -6,7 +5,7 @@ import { FilterOffers } from "../../utils/offers-sorter-filter";
 
 type Props = {
   offers: Offer[];
-  setOffers: Dispatch<SetStateAction<Offer[]>>;
+  defineOffers: (offers: Offer[]) => void;
   offersFiltered: Offer[];
   defineOffersFiltered: (offers: Offer[]) => void;
   defineOfferSelected: (offer: Offer) => void;
@@ -32,8 +31,7 @@ export default function ListFilterPeriod(props: Props) {
             );
             props.defineOffersFiltered(newOffersFiltered);
             props.defineOfferSelected(newOffersFiltered[0] || new Offer());
-            // const newFilterParameters = new FilterParameters();
-            props.setOffers(newOffers);
+            props.defineOffers(newOffers);
           }
         }}
         value={props.filterParameters.Period}

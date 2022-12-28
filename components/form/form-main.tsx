@@ -1,5 +1,5 @@
 import router from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { saveOffer } from "../../database/queries/offers-queries";
 import { ButtonTypes } from "../../models/button-types";
 import Campaign from "../../models/campaign";
@@ -10,7 +10,7 @@ import DefaultButton from "../buttons/default-button";
 import FormButtons from "./form-buttons";
 import FormCampaigns from "./form-campaigns";
 import FormCategories from "./form-categories";
-import FormCode from "./form-code";
+import FormCoupon from "./form-coupon";
 import FormDescription from "./form-description";
 import FormExpired from "./form-expired";
 import FormImage from "./form-image";
@@ -39,10 +39,12 @@ const validateForm = (offer: Offer, imageFile: Buffer | null) => {
 
 export default function FormMain(props: Props) {
   const [imageURL, setImageURL] = useState("");
+  const [imageURLs, setImageUrls] = useState<string[]>([]);
   const [imageFileURL, setImageFileURL] = useState("");
   const [imageFileSelected, setImageFileSelected] = useState(false);
   const [imageFile, setImageFile] = useState<Buffer | null>(null);
   const [modal, setModal] = useState(false);
+  const resultRef = useRef<HTMLSelectElement>(null);
 
   function handleModal() {
     setModal(!modal);
@@ -69,6 +71,7 @@ export default function FormMain(props: Props) {
               imageFileSelected ? imageFile : null
             );
             router.back();
+          } else {
           }
         }}
       >
@@ -78,6 +81,7 @@ export default function FormMain(props: Props) {
               offer={props.offerSelected}
               defineOfferSelected={props.defineOfferSelected}
               stores={props.stores}
+              resultRef={resultRef}
             />
             <FormCategories
               offer={props.offerSelected}
@@ -112,6 +116,8 @@ export default function FormMain(props: Props) {
               imageFileSelected={imageFileSelected}
               setImageFileSelected={setImageFileSelected}
               setImageFile={setImageFile}
+              imageURLs={imageURLs}
+              setImageURLs={setImageUrls}
             />
           </div>
           <div className="flex w-2/4">
@@ -123,7 +129,7 @@ export default function FormMain(props: Props) {
               offer={props.offerSelected}
               defineOfferSelected={props.defineOfferSelected}
             />
-            <FormCode
+            <FormCoupon
               offer={props.offerSelected}
               defineOfferSelected={props.defineOfferSelected}
             />
@@ -142,6 +148,8 @@ export default function FormMain(props: Props) {
             <FormUrl
               offer={props.offerSelected}
               defineOfferSelected={props.defineOfferSelected}
+              resultRef={resultRef}
+              setImageUrls={setImageUrls}
             />
             <FormDescription
               offer={props.offerSelected}
@@ -170,6 +178,7 @@ export default function FormMain(props: Props) {
             setLoading={props.setLoading}
             loading={props.loading}
             handleModal={handleModal}
+            setImageUrls={setImageUrls}
           />
         </div>
       </form>

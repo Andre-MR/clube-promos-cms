@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Offer from "../../../models/offer";
 
 export default function CardImage({ offer }: { offer: Offer }) {
@@ -10,18 +9,6 @@ export default function CardImage({ offer }: { offer: Offer }) {
         rel="noreferrer"
         href={offer ? offer.Url : ""}
       >
-        {/* <Image
-          // src={offer ? offer.ImageUrl : ''}
-          src={offer.ImageUrl}
-          priority={true}
-          alt="image-mock"
-          // width={200}
-          // height={180}
-          layout='fill'
-          objectFit='contain'
-          blurDataURL='/images/card-image-background.png'
-          placeholder='blur'
-        /> */}
         <img
           src={offer.ImageUrl}
           className="flex h-full object-contain"

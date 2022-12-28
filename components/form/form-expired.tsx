@@ -1,9 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 

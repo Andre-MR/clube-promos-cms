@@ -1,8 +1,6 @@
 import Link from "next/link";
 import router from "next/router";
 import { useState } from "react";
-import { useApp } from "../../context/AppContext";
-import Offer from "../../models/offer";
 
 const hamburgerStyles = {
   open: {
@@ -21,7 +19,11 @@ const hamburgerStyles = {
   },
 };
 
-export default function MainHeader() {
+type Props = {
+  homePage: boolean;
+};
+
+export default function MainHeader(props: Props) {
   const [hamburgerStyle, setHamburgerStyle] = useState(hamburgerStyles.closed);
   const hamburgerClick = () => {
     if (hamburgerStyle.navLinks == hamburgerStyles.open.navLinks) {
@@ -30,31 +32,31 @@ export default function MainHeader() {
       setHamburgerStyle(hamburgerStyles.open);
     }
   };
-  const { defineOfferSelected } = useApp();
 
   return (
     <nav className="sticky top-0 z-30 m-auto flex w-full items-center justify-between bg-fuchsia-900">
       <div className="relative flex w-full flex-wrap items-center justify-between">
         <div className="relative z-10 flex w-full items-center justify-between p-1">
           <div className="flex w-20">
-            <button
-              className="ml-2 flex items-center text-white"
-              onClick={() => {
-                defineOfferSelected(new Offer());
-                router.back();
-              }}
-            >
-              <svg
-                className="flex fill-white"
-                width={15}
-                height={15}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 384 512"
+            {!props.homePage ? (
+              <button
+                className="ml-2 flex items-center text-white"
+                onClick={() => {
+                  router.back();
+                }}
               >
-                <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-              </svg>
-              <p className="pl-1">Voltar</p>
-            </button>
+                <svg
+                  className="flex fill-white"
+                  width={15}
+                  height={15}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512"
+                >
+                  <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 278.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+                </svg>
+                <p className="pl-1">Voltar</p>
+              </button>
+            ) : null}
           </div>
 
           <h1 className="text-xl text-white">

@@ -1,13 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function FormPrice(props: Props) {
+  const [priceEditing, setPriceEditing] = useState(false);
   return (
     <div className="mx-5 flex w-1/4 flex-col space-y-1">
       <label className="flex items-center" htmlFor="price">
@@ -23,16 +23,25 @@ export default function FormPrice(props: Props) {
         step={0.01}
         required
         onChange={(e) => {
+          setPriceEditing(true);
           const newOffer = structuredClone(props.offer);
-          newOffer.Price = Number.parseFloat(e.currentTarget.value);
+          newOffer.Price = Number.parseFloat(
+            Number.parseFloat(e.currentTarget.value).toFixed(2)
+          );
           props.defineOfferSelected(newOffer);
         }}
         onBlur={(e) => {
+          setPriceEditing(false);
+          const newOffer = structuredClone(props.offer);
+          newOffer.Price = Number.parseFloat(
+            Number.parseFloat(e.currentTarget.value).toFixed(2)
+          );
+          props.defineOfferSelected(newOffer);
           e.currentTarget.value = Number.parseFloat(
             e.currentTarget.value
           ).toFixed(2);
         }}
-        defaultValue={props.offer.Price.toFixed(2)}
+        value={priceEditing ? props.offer.Price : props.offer.Price.toFixed(2)}
       />
     </div>
   );

@@ -25,7 +25,7 @@ export default function CardLogoStore(props: Props) {
       className={`z-20 flex whitespace-nowrap rounded-full border bg-white px-2 pb-[0.1rem] text-xs font-bold tracking-wide text-slate-800 opacity-90`}
       style={storeStyle}
     >
-      {props.offer.Store ? props.offer.Store : "Loja"}
+      {props.offer.Store}
     </div>
   );
 }

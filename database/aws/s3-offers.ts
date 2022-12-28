@@ -8,7 +8,6 @@ async function awsSaveImageFromURL(
   imageUrl: string
 ): Promise<string> {
   const response = await fetch(imageUrl);
-  // const blob = await response.blob();
   const buffer = Buffer.from(await response.arrayBuffer());
   const convertedBuffer = await ImageConvert(buffer);
 

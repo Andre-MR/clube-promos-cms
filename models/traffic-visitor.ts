@@ -16,7 +16,7 @@ export default interface TrafficVisitor {
     Whatsapp: number;
   };
   Clicks: number;
-  Code: string;
+  Coupon: string;
   Created: Date;
   Description: string;
   ImageUrl: string;

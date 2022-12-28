@@ -12,11 +12,10 @@ async function awsGetOffers(key: {
 }): Promise<Offer[] | null> {
   payload = {
     TableName: Table!,
-    // KeyConditionExpression: "PK = :PK and begins_with(SK, :SK)",
     KeyConditionExpression: "PK = :PK and SK >= :SK",
     ExpressionAttributeValues: {
-      ":PK": key.PK, // "OFFER#2022" etc
-      ":SK": key.SK, //"20220101001" etc
+      ":PK": key.PK, // "OFFER#2022"
+      ":SK": key.SK, //"20220101001"
     },
     ScanIndexForward: false,
     // Limit: 10,
@@ -69,7 +68,7 @@ async function awsCreateOffer(offer: Offer, imageFile: Buffer | null) {
         Whatsapp: 0,
       },
       Clicks: 0,
-      Code: offer.Code,
+      Coupon: offer.Coupon,
       Created: today.toISOString(),
       Description: offer.Description,
       Expired: offer.Expired == offer.Created ? "" : offer.Expired,
@@ -91,11 +90,6 @@ async function awsCreateOffer(offer: Offer, imageFile: Buffer | null) {
 
 async function awsUpdateOffer(offer: Offer, imageFile: Buffer | null) {
   const today = new Date();
-  // const todayYear = today.getFullYear().toString();
-  // const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
-  // const todayDay = today.getDate().toString().padStart(2, "0");
-
-  // verify replace instead:
   const imageUrl = imageFile
     ? await awsSaveImageFromFile(offer.SK, imageFile)
     : offer.ImageUrl.includes(`${process.env.AWS_S3_BUCKET}.s3`)
@@ -106,14 +100,14 @@ async function awsUpdateOffer(offer: Offer, imageFile: Buffer | null) {
     TableName: Table!,
     Key: { PK: offer.PK, SK: offer.SK },
     UpdateExpression: `SET Active = :active, Campaigns = :campaigns, Category = :category, 
-                      Code = :code, Description = :description, Expired = :expired, ImageUrl = :imageUrl, 
+                      Coupon = :coupon, Description = :description, Expired = :expired, ImageUrl = :imageUrl, 
                       OldPrice = :oldPrice, Price = :price, Priority = :priority, #aliasStore = :aliasStore, Title = :title, 
                       Updated = :updated, #aliasUrl = :aliasUrl`,
     ExpressionAttributeValues: {
       ":active": offer.Active,
       ":campaigns": offer.Campaigns.length > 0 ? offer.Campaigns : [],
       ":category": offer.Category,
-      ":code": offer.Code,
+      ":coupon": offer.Coupon,
       ":description": offer.Description,
       ":expired": offer.Expired,
       ":imageUrl": imageUrl,

@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import Campaign from "../../models/campaign";
 import Category from "../../models/category";
 import Offer from "../../models/offer";
@@ -14,7 +13,7 @@ import ListFilterActive from "./list-filter-active";
 
 type Props = {
   offers: Offer[];
-  setOffers: Dispatch<SetStateAction<Offer[]>>;
+  defineOffers: (offers: Offer[]) => void;
   offersFiltered: Offer[];
   defineOffersFiltered: (offers: Offer[]) => void;
   stores: Store[];
@@ -31,7 +30,7 @@ export default function ListOffersHeader(props: Props) {
       <div className="flex space-x-2">
         <ListFilterPeriod
           offers={props.offers}
-          setOffers={props.setOffers}
+          defineOffers={props.defineOffers}
           offersFiltered={props.offersFiltered}
           defineOffersFiltered={props.defineOffersFiltered}
           filterParameters={props.filterParameters}

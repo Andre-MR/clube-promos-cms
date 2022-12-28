@@ -1,9 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 
@@ -21,7 +19,7 @@ export default function FormDescription(props: Props) {
           newOffer.Description = e.currentTarget.value;
           props.defineOfferSelected(newOffer);
         }}
-        defaultValue={props.offer.Description}
+        value={props.offer.Description}
       />
     </div>
   );

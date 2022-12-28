@@ -1,13 +1,10 @@
 import Offer from "../../../models/offer";
-import SanitizeURL from "../../../utils/sanitize-url";
 
 type Props = {
   offer: Offer;
 };
 
 export default function CardLogoSocialWhatsapp(props: Props) {
-  // const sanitizedURL = props.offer ? SanitizeURL(props.offer.Title) : "";
-
   return (
     <a
       target={"_blank"}

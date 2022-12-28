@@ -1,38 +1,37 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 
-export default function FormCode(props: Props) {
-  const [codeValue, setCodeValue] = useState("");
-  const [codeField, setCodeField] = useState(
-    props.offer.SK && props.offer.Code ? false : true
+export default function FormCoupon(props: Props) {
+  const [couponValue, setCouponValue] = useState("");
+  const [couponField, setCouponField] = useState(
+    props.offer.SK && props.offer.Coupon ? false : true
   );
   return (
     <div className="mx-5 flex w-2/4 flex-col space-y-1">
       <div className="flex items-center">
-        <label htmlFor="code" className="flex items-center">
+        <label htmlFor="coupon" className="flex items-center">
           <input
             className="peer sr-only"
             type="checkbox"
-            id="code"
-            name="code"
+            id="coupon"
+            name="coupon"
             onChange={(e) => {
               const newOffer = structuredClone(props.offer);
               if (!e.currentTarget.checked) {
-                newOffer.Code = "";
-                setCodeValue("");
+                newOffer.Coupon = "";
+                setCouponValue("");
               } else {
-                newOffer.Code = "";
+                newOffer.Coupon = "";
               }
               props.defineOfferSelected(newOffer);
-              setCodeField(!e.currentTarget.checked);
+              setCouponField(!e.currentTarget.checked);
             }}
-            checked={!codeField}
+            checked={!couponField}
           />
           <svg
             width={14}
@@ -52,22 +51,22 @@ export default function FormCode(props: Props) {
           >
             <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
           </svg>
-          Código
+          Cupom
         </label>
       </div>
       <input
         className="h-8 rounded py-1 px-2"
-        id="code"
-        name="code"
+        id="coupon"
+        name="coupon"
         type="text"
-        disabled={codeField}
+        disabled={couponField}
         onChange={(e) => {
           const newOffer = structuredClone(props.offer);
-          newOffer.Code = e.target.value;
+          newOffer.Coupon = e.target.value;
           props.defineOfferSelected(newOffer);
-          setCodeValue(e.target.value);
+          setCouponValue(e.target.value);
         }}
-        defaultValue={!codeField ? props.offer.Code : ""}
+        defaultValue={!couponField ? props.offer.Coupon : ""}
       />
     </div>
   );

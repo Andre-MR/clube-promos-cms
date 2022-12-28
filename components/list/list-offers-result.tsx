@@ -1,11 +1,4 @@
-import {
-  createRef,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useRef,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
 import ListOffersItem from "./list-offers-item";
@@ -14,7 +7,7 @@ type Props = {
   scrollY: number;
   defineScrollY: (y: number) => void;
   offers: Offer[];
-  setOffers: Dispatch<SetStateAction<Offer[]>>;
+  defineOffers: (offers: Offer[]) => void;
   stores: Store[];
   setStores: Dispatch<SetStateAction<Store[]>>;
   offerSelected: Offer | null;
@@ -25,7 +18,8 @@ export default function ListOffersResult(this: any, props: Props) {
   const resultRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     resultRef.current?.scrollTo(0, props.scrollY);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return props.offers ? (
     <div

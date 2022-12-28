@@ -1,9 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 
@@ -23,7 +21,7 @@ export default function FormTitle(props: Props) {
           props.defineOfferSelected(newOffer);
         }}
         required
-        defaultValue={props.offer.Title}
+        value={props.offer.Title}
       />
     </div>
   );

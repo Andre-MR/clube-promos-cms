@@ -8,13 +8,11 @@ export default function CardLogoBrand() {
         text-xs font-bold tracking-wide opacity-90"
     >
       <Image
-        className=""
+        className="object-contain"
         src={favicon}
         priority={true}
         alt="mage-mock"
-        // width={40}
-        // height={40}
-        layout="fill"
+        fill
       />
     </div>
   );

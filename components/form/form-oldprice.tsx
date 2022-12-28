@@ -1,17 +1,18 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Offer from "../../models/offer";
 
 type Props = {
   offer: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 
 export default function FormOldPrice(props: Props) {
-  const [oldPriceValue, setOldPriceValue] = useState(0);
+  const [oldPrice, setOldPrice] = useState(false);
   const [oldPriceFieldDisabled, setOldPriceFieldDisabled] = useState(
     props.offer.SK && props.offer.OldPrice ? false : true
   );
+  const [priceEditing, setPriceEditing] = useState(false);
+
   return (
     <div className="flex w-1/4 flex-col space-y-1">
       <label htmlFor="oldPrice" className="flex items-center">
@@ -25,11 +26,13 @@ export default function FormOldPrice(props: Props) {
               const newOffer = structuredClone(props.offer);
               newOffer.OldPrice = 0;
               props.defineOfferSelected(newOffer);
-              setOldPriceValue(0);
+              setOldPrice(false);
+            } else {
+              setOldPrice(true);
             }
             setOldPriceFieldDisabled(!e.currentTarget.checked);
           }}
-          checked={!oldPriceFieldDisabled}
+          checked={!oldPriceFieldDisabled || props.offer.OldPrice != 0}
         ></input>
         <svg
           width={14}
@@ -60,18 +63,32 @@ export default function FormOldPrice(props: Props) {
         max={999999}
         step={0.01}
         onChange={(e) => {
+          setPriceEditing(true);
           const newOffer = structuredClone(props.offer);
-          newOffer.OldPrice = Number.parseFloat(e.currentTarget.value);
+          newOffer.OldPrice = Number.parseFloat(
+            Number.parseFloat(e.currentTarget.value).toFixed(2)
+          );
           props.defineOfferSelected(newOffer);
-          setOldPriceValue(newOffer.OldPrice);
+        }}
+        onBlur={(e) => {
+          setPriceEditing(false);
+          const newOffer = structuredClone(props.offer);
+          newOffer.OldPrice = Number.parseFloat(
+            Number.parseFloat(e.currentTarget.value).toFixed(2)
+          );
+          props.defineOfferSelected(newOffer);
           e.currentTarget.value = Number.parseFloat(
             e.currentTarget.value
           ).toFixed(2);
         }}
-        disabled={oldPriceFieldDisabled}
-        defaultValue={
-          !oldPriceFieldDisabled ? props.offer.OldPrice.toFixed(2) : ""
+        value={
+          props.offer.OldPrice <= 0
+            ? ""
+            : priceEditing
+            ? props.offer.OldPrice
+            : props.offer.OldPrice.toFixed(2)
         }
+        disabled={!oldPrice && props.offer.OldPrice <= 0}
       />
     </div>
   );

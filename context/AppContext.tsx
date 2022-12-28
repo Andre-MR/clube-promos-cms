@@ -7,7 +7,9 @@ type appContextType = {
   defineScrollY: (y: number) => void;
   offerSelected: Offer;
   defineOfferSelected: (offer: Offer) => void;
+  offers: Offer[];
   offersFiltered: Offer[];
+  defineOffers: (offers: Offer[]) => void;
   defineOffersFiltered: (offers: Offer[]) => void;
   filterParameters: FilterParameters;
   defineFilterParameters: (filterParameters: FilterParameters) => void;
@@ -18,7 +20,9 @@ const authContextDefaultValues: appContextType = {
   defineScrollY: () => {},
   offerSelected: new Offer(),
   defineOfferSelected: () => {},
+  offers: [],
   offersFiltered: [],
+  defineOffers: () => {},
   defineOffersFiltered: () => {},
   filterParameters: new FilterParameters(),
   defineFilterParameters: () => {},
@@ -37,6 +41,7 @@ type Props = {
 export function AppProvider({ children }: Props) {
   const [scrollY, setScrollY] = useState<number>(0);
   const [offer, setOffer] = useState<Offer>(new Offer());
+  const [offers, setOffers] = useState<Offer[]>([]);
   const [offersFiltered, setOffersFiltered] = useState<Offer[]>([]);
   const [filterParameters, setFilterParameters] = useState<FilterParameters>(
     new FilterParameters()
@@ -48,6 +53,10 @@ export function AppProvider({ children }: Props) {
 
   const defineOfferSelected = (offer: Offer) => {
     setOffer(offer);
+  };
+
+  const defineOffers = (offers: Offer[]) => {
+    setOffers(offers);
   };
 
   const defineOffersFiltered = (offers: Offer[]) => {
@@ -63,7 +72,9 @@ export function AppProvider({ children }: Props) {
     defineScrollY,
     offerSelected: offer,
     defineOfferSelected: defineOfferSelected,
+    offers: offers,
     offersFiltered: offersFiltered,
+    defineOffers: defineOffers,
     defineOffersFiltered: defineOffersFiltered,
     filterParameters: filterParameters,
     defineFilterParameters: defineFilterParameters,

@@ -15,8 +15,4 @@ export default async function handler(
   res: NextApiResponse
 ) {
   return await getStores();
-  if (req.method === "GET") {
-  } else {
-    // Handle any other HTTP method
-  }
 }

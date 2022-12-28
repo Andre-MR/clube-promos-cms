@@ -17,7 +17,7 @@ export default class Offer {
       Whatsapp: 0,
     };
     this.Clicks = 0;
-    this.Code = "";
+    this.Coupon = "";
     this.Created = today;
     this.Description = "";
     this.Expired = today;
@@ -51,7 +51,7 @@ export default class Offer {
     Whatsapp: number;
   };
   Clicks: number;
-  Code: string;
+  Coupon: string;
   Created: Date;
   Description: string;
   Expired: Date;

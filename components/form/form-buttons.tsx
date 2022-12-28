@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { saveOffer } from "../../database/queries/offers-queries";
 import { ButtonTypes } from "../../models/button-types";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
@@ -8,7 +7,6 @@ import LoadingIcon from "../buttons/loading-icon";
 
 type Props = {
   offerSelected: Offer;
-  // setOffer: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
   loading: boolean;
@@ -16,6 +14,7 @@ type Props = {
   imageFileSelected: boolean;
   imageFile: Buffer | null;
   handleModal: () => void;
+  setImageUrls: Dispatch<SetStateAction<string[]>>;
 };
 
 export default function FormButtons(props: Props) {
@@ -41,6 +40,7 @@ export default function FormButtons(props: Props) {
               const newOffer = new Offer();
               newOffer.Store = props.stores[props.stores.length - 1].toString();
               props.defineOfferSelected(new Offer());
+              props.setImageUrls([]);
             }}
           >
             <DefaultButton text={"Limpar"} type={ButtonTypes.Secondary} />

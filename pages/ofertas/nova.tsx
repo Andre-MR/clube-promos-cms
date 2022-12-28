@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import FormMain from "../../components/form/form-main";
@@ -22,13 +22,14 @@ type Props = {
 };
 
 const NewOffer: NextPage<Props> = (props) => {
-  const newOffer = new Offer();
-  newOffer.Store = props.stores[0].Description;
   const [loading, setLoading] = useState(false);
   const { offerSelected, defineOfferSelected } = useApp();
 
   useEffect(() => {
-    defineOfferSelected(new Offer());
+    const newOffer = new Offer();
+    newOffer.Store = props.stores[props.stores.length - 1].Description;
+    defineOfferSelected(newOffer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -40,7 +41,7 @@ const NewOffer: NextPage<Props> = (props) => {
       </Head>
       <main className="flex h-screen w-screen flex-col justify-start bg-gradient-to-b from-gray-300 to-gray-100">
         <div className="flex h-[6%]">
-          <MainHeader />
+          <MainHeader homePage={false} />
         </div>
 
         <div className="flex h-full">
@@ -77,7 +78,7 @@ const NewOffer: NextPage<Props> = (props) => {
 
 export default NewOffer;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const categories = await awsGetCategories();
   const campaigns = await awsGetCampaigns();
   const stores = await awsGetStores();

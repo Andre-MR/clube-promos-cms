@@ -1,7 +1,6 @@
 import Offer from "../../models/offer";
 import Image from "next/image";
 import CardLogoStore from "../card/card-logos/card-logo-store";
-// import { Dispatch, SetStateAction, useEffect } from "react";
 import Store from "../../models/store";
 import { useRouter } from "next/router";
 import DateFormatter from "../../utils/date-converter-br";
@@ -11,7 +10,6 @@ type Props = {
   offer: Offer;
   stores: Store[];
   offerSelected: Offer;
-  // setOfferSelected: Dispatch<SetStateAction<Offer>>;
   defineOfferSelected: (offer: Offer) => void;
 };
 
@@ -29,16 +27,10 @@ export default function ListOffersItem(props: Props) {
             : "flex w-full cursor-pointer justify-between border-2 border-dashed border-gray-300 bg-gray-200 p-1 shadow-md hover:bg-slate-50"
         }
         onClick={() => {
-          // props.setOfferSelected(props.offer);
           props.defineOfferSelected(props.offer);
         }}
         onDoubleClick={() => {
-          // props.setOfferSelected(props.offer);
           props.defineOfferSelected(props.offer);
-          // router.push({
-          //   pathname: "/ofertas/edicao",
-          //   query: { offer: JSON.stringify(props.offerSelected) },
-          // });
           router.push({
             pathname: "/ofertas/edicao",
           });
@@ -46,13 +38,11 @@ export default function ListOffersItem(props: Props) {
       >
         <div className="relative ml-2 mr-4 flex h-20 w-20">
           <Image
+            className="object-contain"
             key={props.offer.ImageUrl}
             src={props.offer.ImageUrl}
             alt="Offer Image"
-            layout="fill"
-            objectFit="contain"
-            // width={30}
-            // height={30}
+            fill
           ></Image>
         </div>
         <div className="flex w-full flex-col">

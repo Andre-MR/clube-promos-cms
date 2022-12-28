@@ -22,9 +22,3 @@ export default function CardLogos(props: Props) {
     </>
   );
 }
-
-export async function getStaticProps() {
-  return {
-    props: "",
-  };
-}

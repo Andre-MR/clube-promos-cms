@@ -20,7 +20,6 @@ import { SortOffers } from "../../utils/offers-sorter-filter";
 import { useApp } from "../../context/AppContext";
 
 type Props = {
-  offers: Offer[];
   stores: Store[];
   categories: Category[];
   campaigns: Campaign[];
@@ -32,21 +31,27 @@ const ListOffers: NextPage<Props> = (props) => {
     defineScrollY,
     offerSelected,
     defineOfferSelected,
+    offers,
+    defineOffers,
     offersFiltered,
     defineOffersFiltered,
     filterParameters,
     defineFilterParameters,
   } = useApp();
-  const [offers, setOffers] = useState(props.offers);
   const [stores, setStores] = useState(props.stores);
 
-  useEffect(() => {
+  async function getOffersAsync() {
     if (!offerSelected.SK) {
-      defineOfferSelected(props.offers[0]);
+      let newOffers = await getOffers(QueryPeriods.Years1);
+      newOffers = SortOffers(SortKeys.Updated, newOffers);
+      defineOffers(newOffers);
+      defineOffersFiltered(newOffers);
+      defineOfferSelected(newOffers[0]);
     }
-    if (offersFiltered.length <= 0) {
-      defineOffersFiltered(props.offers);
-    }
+  }
+
+  useEffect(() => {
+    getOffersAsync();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -59,7 +64,7 @@ const ListOffers: NextPage<Props> = (props) => {
       </Head>
       <main className="relative flex h-screen w-screen flex-col justify-start bg-white">
         <div className="flex h-[6%]">
-          <MainHeader />
+          <MainHeader homePage={false} />
         </div>
 
         <div className="flex h-[90%]">
@@ -71,8 +76,8 @@ const ListOffers: NextPage<Props> = (props) => {
             </div>
             <div className="flex h-[5%]">
               <ListOffersHeader
-                offers={offers}
-                setOffers={setOffers}
+                offers={offers ? offers : offers}
+                defineOffers={defineOffers}
                 offersFiltered={offersFiltered}
                 defineOffersFiltered={defineOffersFiltered}
                 defineOfferSelected={defineOfferSelected}
@@ -88,11 +93,11 @@ const ListOffers: NextPage<Props> = (props) => {
                 scrollY={scrollY}
                 defineScrollY={defineScrollY}
                 offers={offersFiltered}
-                setOffers={setOffers}
+                defineOffers={defineOffers}
                 stores={stores}
                 setStores={setStores}
-                defineOfferSelected={defineOfferSelected}
                 offerSelected={offerSelected}
+                defineOfferSelected={defineOfferSelected}
               />
             </div>
           </div>
@@ -116,13 +121,11 @@ const ListOffers: NextPage<Props> = (props) => {
 export default ListOffers;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const offers = await getOffers(QueryPeriods.Days30);
   const stores = await awsGetStores();
   const categories = await awsGetCategories();
   const campaigns = await awsGetCampaigns();
   return {
     props: {
-      offers: SortOffers(SortKeys.Updated, offers),
       stores: stores,
       categories: categories,
       campaigns: campaigns,

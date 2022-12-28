@@ -11,7 +11,7 @@ export default function CardContent({ offer }: { offer: Offer }) {
       <hr className="mb-1 border-gray-300 " />
       <CardPrice offer={offer} />
       <CardTitle offer={offer} />
-      {offer.Code ? <CardButton offer={offer} /> : null}
+      {offer.Coupon ? <CardButton offer={offer} /> : null}
       <hr className="my-1 border-gray-300 " />
       <CardDescription offer={offer} />
       <CardDisclaimer />
