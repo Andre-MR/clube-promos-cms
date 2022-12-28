@@ -1,10 +1,10 @@
 import aws from "aws-sdk";
 
-const Table = process.env.AWS_DYNAMODB_TABLE;
+const Table = process.env.AMAZON_DYNAMODB_TABLE;
 
 aws.config.update({
-  accessKeyId: process.env.AWS_ACCESSKEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
+  accessKeyId: process.env.AMAZON_ACCESSKEY_ID,
+  secretAccessKey: process.env.AMAZON_SECRET_ACCESSKEY,
   region: "sa-east-1",
 });
 

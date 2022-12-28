@@ -2,7 +2,7 @@ import { AWSDynamoDB } from "./dynamo-config";
 import Category from "../../models/category";
 
 const db = AWSDynamoDB();
-const Table = process.env.AWS_DYNAMODB_TABLE || "";
+const Table = process.env.AMAZON_DYNAMODB_TABLE || "";
 
 const payload = {
   TableName: Table,

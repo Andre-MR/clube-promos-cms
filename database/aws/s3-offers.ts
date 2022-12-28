@@ -42,8 +42,8 @@ async function awsSaveImageFromFile(
 
 async function awsDeleteImage(imageUrl: string) {
   const result = await s3.deleteObject({
-    Bucket: process.env.AWS_S3_BUCKET || "",
-    Key: imageUrl.replace(`https://${process.env.AWS_S3_DOMAIN}/`, ""),
+    Bucket: process.env.AMAZON_S3_BUCKET || "",
+    Key: imageUrl.replace(`https://${process.env.AMAZON_S3_DOMAIN}/`, ""),
   });
   return result;
 }

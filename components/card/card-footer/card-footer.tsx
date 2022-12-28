@@ -12,7 +12,7 @@ export default function CardFooter(props: Props) {
       id="card-footer"
       className="mt-1 flex items-center justify-between bg-blue-50 px-1 py-1"
     >
-      <div className="flex w-6/12">
+      <div title="atualização" className="flex w-6/12">
         <p className="mx-1 fill-current text-xs font-bold text-green-500">
           &#x2713;
         </p>
@@ -20,7 +20,10 @@ export default function CardFooter(props: Props) {
       </div>
 
       <div className="flex w-6/12 justify-end">
-        <div className="flex items-center justify-center space-x-1 rounded-lg px-1 py-1 text-slate-700">
+        <div
+          title="visualizações"
+          className="flex items-center justify-center space-x-1 rounded-lg px-1 py-1 text-slate-700"
+        >
           <svg
             aria-hidden="true"
             height="14px"

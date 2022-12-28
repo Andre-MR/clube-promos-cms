@@ -35,11 +35,7 @@ async function awsCreateOffer(offer: Offer, imageFile: Buffer | null) {
   });
   const offerID =
     todayOffers && todayOffers.length > 0
-      ? (
-          Number.parseInt(
-            todayOffers[todayOffers.length - 1].SK.substring(8, 11)
-          ) + 1
-        )
+      ? (Number.parseInt(todayOffers[0].SK.substring(8, 11)) + 1)
           .toString()
           .padStart(3, "0")
       : "001";
@@ -92,7 +88,7 @@ async function awsUpdateOffer(offer: Offer, imageFile: Buffer | null) {
   const today = new Date();
   const imageUrl = imageFile
     ? await awsSaveImageFromFile(offer.SK, imageFile)
-    : offer.ImageUrl.includes(`${process.env.AWS_S3_BUCKET}.s3`)
+    : offer.ImageUrl.includes(`${process.env.AMAZON_S3_BUCKET}.s3`)
     ? offer.ImageUrl
     : await awsSaveImageFromURL(offer.SK, offer.ImageUrl);
 

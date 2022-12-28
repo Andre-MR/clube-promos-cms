@@ -1,6 +1,7 @@
 export default function CardLogoSocialInstagram() {
   return (
     <a
+      title="instagram"
       target={"_blank"}
       rel="noreferrer"
       href={process.env.NEXT_PUBLIC_INSTAGRAM_URL}

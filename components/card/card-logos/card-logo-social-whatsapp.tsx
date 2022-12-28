@@ -7,6 +7,7 @@ type Props = {
 export default function CardLogoSocialWhatsapp(props: Props) {
   return (
     <a
+      title="compartilhar"
       target={"_blank"}
       rel="noreferrer"
       href={`https://api.whatsapp.com/send?text=*${props.offer.Title.replace(

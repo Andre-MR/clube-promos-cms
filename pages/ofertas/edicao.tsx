@@ -39,7 +39,7 @@ const EditOffer: NextPage<Props> = (props) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="flex h-screen w-screen flex-col justify-start bg-gradient-to-b from-gray-300 to-gray-100">
-        <div className="flex h-[6%]">
+        <div className="flex h-[5%]">
           <MainHeader homePage={false} />
         </div>
 

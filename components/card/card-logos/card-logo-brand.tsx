@@ -4,6 +4,7 @@ import favicon from "../../../public/favicon.png";
 export default function CardLogoBrand() {
   return (
     <div
+      title="logo"
       className="absolute top-2 right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full text-center 
         text-xs font-bold tracking-wide opacity-90"
     >

@@ -1,10 +1,10 @@
 import aws from "aws-sdk";
 
-const Bucket = process.env.AWS_S3_BUCKET;
+const Bucket = process.env.AMAZON_S3_BUCKET;
 
 aws.config.update({
-  accessKeyId: process.env.AWS_ACCESSKEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
+  accessKeyId: process.env.AMAZON_ACCESSKEY_ID,
+  secretAccessKey: process.env.AMAZON_SECRET_ACCESSKEY,
   region: "sa-east-1",
 });
 
