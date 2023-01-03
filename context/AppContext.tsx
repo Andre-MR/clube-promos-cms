@@ -1,6 +1,7 @@
 import { createContext, useContext, ReactNode, useState } from "react";
 import { FilterParameters } from "../models/filter-parameters";
 import Offer from "../models/offer";
+import Setting from "../models/setting";
 
 type appContextType = {
   scrollY: number;
@@ -13,6 +14,8 @@ type appContextType = {
   defineOffersFiltered: (offers: Offer[]) => void;
   filterParameters: FilterParameters;
   defineFilterParameters: (filterParameters: FilterParameters) => void;
+  cmsSettings: Setting[];
+  defineCmsSettings: (cmsSettings: Setting[]) => void;
 };
 
 const authContextDefaultValues: appContextType = {
@@ -26,6 +29,8 @@ const authContextDefaultValues: appContextType = {
   defineOffersFiltered: () => {},
   filterParameters: new FilterParameters(),
   defineFilterParameters: () => {},
+  cmsSettings: [],
+  defineCmsSettings: () => {},
 };
 
 const AppContext = createContext<appContextType>(authContextDefaultValues);
@@ -46,6 +51,7 @@ export function AppProvider({ children }: Props) {
   const [filterParameters, setFilterParameters] = useState<FilterParameters>(
     new FilterParameters()
   );
+  const [cmsSettings, setCmsSettings] = useState<Setting[]>([]);
 
   const defineScrollY = (y: number) => {
     setScrollY(y);
@@ -67,6 +73,10 @@ export function AppProvider({ children }: Props) {
     setFilterParameters(filterParameters);
   };
 
+  const defineCmsSettings = (cmsSettings: Setting[]) => {
+    setCmsSettings(cmsSettings);
+  };
+
   const value = {
     scrollY: scrollY,
     defineScrollY,
@@ -78,6 +88,8 @@ export function AppProvider({ children }: Props) {
     defineOffersFiltered: defineOffersFiltered,
     filterParameters: filterParameters,
     defineFilterParameters: defineFilterParameters,
+    cmsSettings: cmsSettings,
+    defineCmsSettings: defineCmsSettings,
   };
 
   return (

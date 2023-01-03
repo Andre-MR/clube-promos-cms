@@ -21,7 +21,7 @@ export default function FormCategories(props: Props) {
           newOffer.Category = e.target.value;
           props.defineOfferSelected(newOffer);
         }}
-        defaultValue={props.offer.SK ? props.offer.Category : ""}
+        value={props.offer.Category}
       >
         {props.categories.map((category) => {
           return (

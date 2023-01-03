@@ -20,6 +20,7 @@ import FormPriority from "./form-priority";
 import FormStore from "./form-store";
 import FormTitle from "./form-title";
 import FormUrl from "./form-url";
+import Setting from "../../models/setting";
 
 type Props = {
   offerSelected: Offer;
@@ -29,6 +30,7 @@ type Props = {
   stores: Store[];
   categories: Category[];
   campaigns: Campaign[];
+  cmsSettings: Setting[];
 };
 
 const validateForm = (offer: Offer, imageFile: Buffer | null) => {
@@ -150,6 +152,7 @@ export default function FormMain(props: Props) {
               defineOfferSelected={props.defineOfferSelected}
               resultRef={resultRef}
               setImageUrls={setImageUrls}
+              cmsSettings={props.cmsSettings}
             />
             <FormDescription
               offer={props.offerSelected}

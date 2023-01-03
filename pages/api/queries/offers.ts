@@ -7,6 +7,17 @@ import {
 } from "../../../database/aws/dynamo-offers";
 import { NextApiRequest, NextApiResponse } from "next";
 
+async function revalidateSite() {
+  if (process.env.SITE_DOMAIN) {
+    console.log("process.env.SITE_DOMAIN");
+    console.log(process.env.SITE_DOMAIN);
+    const revalidateResult = await fetch(
+      `${process.env.SITE_DOMAIN}/api/revalidate`
+    );
+    console.log(await revalidateResult.json());
+  }
+}
+
 async function getOffers(PK: string, SK: string): Promise<Offer[] | null> {
   return await awsGetOffers({ PK: PK, SK: SK });
 }
@@ -15,7 +26,11 @@ async function saveOffer(offer: Offer, imageFile: Buffer | null) {
   if (offer.SK) {
     return await awsUpdateOffer(offer, imageFile);
   } else {
-    return await awsCreateOffer(offer, imageFile);
+    const offerCreated = await awsCreateOffer(offer, imageFile);
+    if (offerCreated) {
+      revalidateSite();
+    }
+    return offerCreated;
   }
 }
 

@@ -14,7 +14,11 @@ export default function FormCampaigns(props: Props) {
       <select
         className="h-full rounded py-1 px-1"
         multiple
-        defaultValue={props.offer.Campaigns.map((campaign) => campaign)}
+        value={
+          props.offer.SK
+            ? props.offer.Campaigns.map((campaign) => campaign)
+            : ""
+        }
       >
         {props.campaigns.map((campaign) => {
           const selected = props.offer.Campaigns.includes(campaign.Description);

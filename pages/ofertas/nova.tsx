@@ -14,21 +14,29 @@ import awsGetCampaigns from "../../database/aws/dynamo-campaigns";
 import awsGetStores from "../../database/aws/dynamo-stores";
 import FormHeader from "../../components/form/form-header";
 import { useApp } from "../../context/AppContext";
+import awsGetSettings from "../../database/aws/dynamo-settings";
+import Setting from "../../models/setting";
 
 type Props = {
   stores: Store[];
   categories: Category[];
   campaigns: Campaign[];
+  settings: Setting[];
 };
 
 const NewOffer: NextPage<Props> = (props) => {
   const [loading, setLoading] = useState(false);
-  const { offerSelected, defineOfferSelected } = useApp();
+  const { offerSelected, defineOfferSelected, cmsSettings, defineCmsSettings } =
+    useApp();
 
   useEffect(() => {
     const newOffer = new Offer();
+    const expiredDate = new Date();
+    expiredDate.setDate(expiredDate.getDate() + 30);
+    newOffer.Expired = expiredDate;
     newOffer.Store = props.stores[props.stores.length - 1].Description;
     defineOfferSelected(newOffer);
+    defineCmsSettings(props.settings);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -60,6 +68,7 @@ const NewOffer: NextPage<Props> = (props) => {
                 campaigns={props.campaigns}
                 setLoading={setLoading}
                 loading={loading}
+                cmsSettings={cmsSettings}
               />
             </div>
           </div>
@@ -82,12 +91,14 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const categories = await awsGetCategories();
   const campaigns = await awsGetCampaigns();
   const stores = await awsGetStores();
+  const settings = await awsGetSettings();
 
   return {
     props: {
       stores: stores,
       categories: categories,
       campaigns: campaigns,
+      settings: settings,
     },
   };
 };

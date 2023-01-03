@@ -63,6 +63,7 @@ const EditOffer: NextPage<Props> = (props) => {
                 campaigns={props.campaigns}
                 setLoading={setLoading}
                 loading={loading}
+                cmsSettings={[]}
               />
             </div>
           </div>

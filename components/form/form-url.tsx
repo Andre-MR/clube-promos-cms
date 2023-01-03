@@ -2,12 +2,14 @@ import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { getAmazonProduct } from "../../services/amazon-queries";
 import Offer from "../../models/offer";
 import LoadingIcon from "../buttons/loading-icon";
+import Setting from "../../models/setting";
 
 type Props = {
   offer: Offer;
   defineOfferSelected: (offer: Offer) => void;
   resultRef: RefObject<HTMLSelectElement>;
   setImageUrls: Dispatch<SetStateAction<string[]>>;
+  cmsSettings: Setting[];
 };
 
 export default function FormUrl(props: Props) {
@@ -35,17 +37,28 @@ export default function FormUrl(props: Props) {
     const product = await getAmazonProduct(amazonParameter);
     const newOffer = new Offer();
     newOffer.Title = product.title ? product.title : "";
-    newOffer.Description = product.description ? product.description : "";
     newOffer.ImageUrl = product.imageUrls
       ? product.imageUrls.length > 0
         ? product.imageUrls[0]
         : ""
       : "";
     props.setImageUrls(product.imageUrls ? product.imageUrls : []);
-    newOffer.Price = product.price ? product.price : 0;
+    newOffer.Price = product.price ? product.price.value : 0;
     newOffer.OldPrice = product.oldPrice ? product.oldPrice : 0;
     newOffer.Store = "Amazon";
     newOffer.Url = amazonParameter;
+
+    newOffer.Description = product.description ? product.description : "";
+    if (product.price && product.price.sns) {
+      let amazonDescription = "";
+      for (const setting of props.cmsSettings) {
+        if (setting.SK == "AMAZON#DESCRIPTION#RECURRENCE") {
+          amazonDescription = setting.Value;
+          break;
+        }
+      }
+      newOffer.Description = amazonDescription + product.description;
+    }
     props.defineOfferSelected(newOffer);
     setLoading(false);
   }

@@ -1,13 +1,22 @@
-async function getPrice(page: string) {
+let snsPrice = false;
+
+type Price = {
+  value: number;
+  sns: boolean;
+};
+
+async function getPrice<Price>(page: string) {
   const price = page.match(/(?<=price-data">)(.*?)(?=<\/div>)/);
   const priceOBJ = price ? JSON.parse(price![0]) : null;
   let bestPrice = 0;
   if (priceOBJ) {
     for (let i = 0; i < priceOBJ.length; i++) {
       if (priceOBJ[i].buyingOptionType == "NEW") {
+        snsPrice = false;
         bestPrice = priceOBJ[i].priceAmount;
       }
       if (priceOBJ[i].buyingOptionType == "SNS") {
+        snsPrice = true;
         bestPrice = priceOBJ[i].priceAmount;
         break;
       }
@@ -15,7 +24,7 @@ async function getPrice(page: string) {
   }
   const priceDouble = Number.parseFloat(bestPrice.toString());
 
-  return priceDouble;
+  return { value: priceDouble, sns: snsPrice };
 }
 
 async function getOldPrice(page: string) {
