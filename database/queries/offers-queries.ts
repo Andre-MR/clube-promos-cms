@@ -38,7 +38,7 @@ async function deleteOffer(offer: Offer): Promise<boolean> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_MAIN_URL}/api/queries/offers`,
     {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      method: "DELETE", // *GET, POST, PUT, DELETE, etc.
       // mode: 'cors', // no-cors, *cors, same-origin
       // cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
       // credentials: 'same-origin', // include, *same-origin, omit
@@ -100,6 +100,7 @@ async function getOffers(queryPeriod: QueryPeriods) {
 
 async function getOffersToday() {
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const PK = `OFFER#${today.getFullYear()}`;
   const SK = `${today.getFullYear()}${(today.getMonth() + 1)
     .toString()
@@ -109,33 +110,71 @@ async function getOffersToday() {
 
 async function getOffersDays7() {
   const today = new Date();
-  today.setDate(today.getDate() - 7);
-  const PK = `OFFER#${today.getFullYear()}`;
-  const SK = `${today.getFullYear()}${(today.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${today.getDate().toString().padStart(2, "0")}`;
-  return await fetchOffers(PK, SK);
+  today.setHours(0, 0, 0, 0);
+  const yesterday = new Date(today);
+  yesterday.setHours(0, 0, 0, 0);
+  yesterday.setDate(today.getDate() - 7);
+
+  if (yesterday.getFullYear() >= today.getFullYear()) {
+    const PK = `OFFER#${yesterday.getFullYear()}`;
+    const SK = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
+    return await fetchOffers(PK, SK);
+  } else {
+    const PK1 = `OFFER#${yesterday.getFullYear()}`;
+    const SK1 = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
+    const PK2 = `OFFER#${today.getFullYear()}`;
+    const SK2 = `${today.getFullYear()}`;
+
+    const result1 = await fetchOffers(PK1, SK1);
+    const result2 = await fetchOffers(PK2, SK2);
+
+    return result1.concat(result2);
+  }
 }
 
 async function getOffersDays30() {
   const today = new Date();
-  today.setDate(today.getDate() - 30);
-  const PK = `OFFER#${today.getFullYear()}`;
-  const SK = `${today.getFullYear()}${(today.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${today.getDate().toString().padStart(2, "0")}`;
-  return await fetchOffers(PK, SK);
+  today.setHours(0, 0, 0, 0);
+  const yesterday = new Date(today);
+  yesterday.setHours(0, 0, 0, 0);
+  yesterday.setDate(today.getDate() - 30);
+
+  if (yesterday.getFullYear() >= today.getFullYear()) {
+    const PK = `OFFER#${yesterday.getFullYear()}`;
+    const SK = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
+    return await fetchOffers(PK, SK);
+  } else {
+    const PK1 = `OFFER#${yesterday.getFullYear()}`;
+    const SK1 = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
+    const PK2 = `OFFER#${today.getFullYear()}`;
+    const SK2 = `${today.getFullYear()}`;
+
+    const result1 = await fetchOffers(PK1, SK1);
+    const result2 = await fetchOffers(PK2, SK2);
+
+    return result1.concat(result2);
+  }
 }
 
 async function getOffersYears1() {
   const today = new Date();
-  const lastYear = new Date(today);
-  lastYear.setDate(today.getDate() - 365);
+  today.setHours(0, 0, 0, 0);
+  const yesterday = new Date(today);
+  yesterday.setHours(0, 0, 0, 0);
+  yesterday.setDate(today.getDate() - 365);
 
-  const PK1 = `OFFER#${lastYear.getFullYear()}`;
-  const SK1 = `${lastYear.getFullYear()}${(lastYear.getMonth() + 1)
+  const PK1 = `OFFER#${yesterday.getFullYear()}`;
+  const SK1 = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
     .toString()
-    .padStart(2, "0")}${lastYear.getDate().toString().padStart(2, "0")}`;
+    .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
   const PK2 = `OFFER#${today.getFullYear()}`;
   const SK2 = `${today.getFullYear()}`;
 
@@ -147,16 +186,35 @@ async function getOffersYears1() {
 
 async function getOffersWeek() {
   const today = new Date();
-  today.setDate(today.getDate() - today.getDay());
-  const PK = `OFFER#${today.getFullYear()}`;
-  const SK = `${today.getFullYear()}${(today.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}${today.getDate().toString().padStart(2, "0")}`;
-  return await fetchOffers(PK, SK);
+  today.setHours(0, 0, 0, 0);
+  const yesterday = new Date(today);
+  yesterday.setHours(0, 0, 0, 0);
+  yesterday.setDate(today.getDate() - today.getDay());
+
+  if (yesterday.getFullYear() >= today.getFullYear()) {
+    const PK = `OFFER#${yesterday.getFullYear()}`;
+    const SK = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
+    return await fetchOffers(PK, SK);
+  } else {
+    const PK1 = `OFFER#${yesterday.getFullYear()}`;
+    const SK1 = `${yesterday.getFullYear()}${(yesterday.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}${yesterday.getDate().toString().padStart(2, "0")}`;
+    const PK2 = `OFFER#${today.getFullYear()}`;
+    const SK2 = `${today.getFullYear()}`;
+
+    const result1 = await fetchOffers(PK1, SK1);
+    const result2 = await fetchOffers(PK2, SK2);
+
+    return result1.concat(result2);
+  }
 }
 
 async function getOffersMonth() {
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const PK = `OFFER#${today.getFullYear()}`;
   const SK = `${today.getFullYear()}${(today.getMonth() + 1)
     .toString()
@@ -166,6 +224,7 @@ async function getOffersMonth() {
 
 async function getOffersYear() {
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const PK = `OFFER#${today.getFullYear()}`;
   const SK = `${today.getFullYear()}`;
   return await fetchOffers(PK, SK);

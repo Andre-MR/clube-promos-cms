@@ -1,6 +1,6 @@
 import router from "next/router";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
-import { saveOffer } from "../../database/queries/offers-queries";
+import { deleteOffer, saveOffer } from "../../database/queries/offers-queries";
 import { ButtonTypes } from "../../models/button-types";
 import Campaign from "../../models/campaign";
 import Category from "../../models/category";
@@ -72,7 +72,7 @@ export default function FormMain(props: Props) {
               props.offerSelected,
               imageFileSelected ? imageFile : null
             );
-            router.back();
+            router.replace("/ofertas/listagem");
           } else {
           }
         }}
@@ -198,10 +198,8 @@ export default function FormMain(props: Props) {
               </button>
               <button
                 onClick={async () => {
-                  await saveOffer(
-                    props.offerSelected,
-                    imageFileSelected ? imageFile : null
-                  );
+                  await deleteOffer(props.offerSelected);
+                  props.defineOfferSelected(new Offer());
                   router.back();
                 }}
               >

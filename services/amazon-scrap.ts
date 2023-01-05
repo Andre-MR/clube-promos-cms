@@ -29,12 +29,19 @@ async function getPrice<Price>(page: string) {
 
 async function getOldPrice(page: string) {
   const price1 = page.match(/(?<=>De:)(.*?)(?=<\/span)/s);
-  const price2 = price1 ? price1[0].match(/([^R\$ ]*?$)/) : null;
+  const price2 = price1 ? price1[0].match(/([0-9]*,[0-9]*)$/) : null;
+  // const price2 = price1 ? price1[0].match(/([^R\$ ]*?$)/) : null;
   let priceDouble = 0;
-  if (price2) {
+  if (price2 && price2.length > 0) {
     priceDouble = Number.parseFloat(
       price2[0].replace(".", "").replace(",", ".")
     );
+  } else {
+    const price3 = page.match(/(?<=\>De:<\/span>)(.*?)(?=<\/span>)/);
+    const price4 = price3 ? price3[0].match(/([0-9]*,[0-9]*)$/) : null;
+    priceDouble = price4
+      ? Number.parseFloat(price4[0].replace(".", "").replace(",", "."))
+      : priceDouble;
   }
 
   return priceDouble;
@@ -44,6 +51,10 @@ async function getDescription(page: string) {
   const desc1 = page.match(/(?<=id="productDescription" )(.*)(?=<\/span)/s);
   const desc2 = desc1 ? desc1[0].match(/(?<=<span>)(.*)(?=<\/span)/) : null;
   let description = desc2 ? desc2[0] : null;
+  if (!description) {
+    const desc3 = page.match(/(?<=collapse-content"> <span>)(.*?)(?=<\/span>)/);
+    description = desc3 ? desc3[0] : null;
+  }
   if (description) {
     description = description?.replace(/(<\/(.*?)>)/g, " ");
     description = description?.replace(/(<(.*?)>)/g, "");
@@ -53,33 +64,47 @@ async function getDescription(page: string) {
 }
 
 async function getImages(page: string) {
-  const img1 = page.match(/(?<='colorImages': { 'initial': )(.*?)(?<=\}\])/);
-  const imgOBJ = img1 ? JSON.parse(img1![0]) : null;
   let images: Array<string> = [];
-  if (imgOBJ) {
-    images.push(imgOBJ[0].hiRes);
-    for (let i = 0; i < imgOBJ.length; i++) {
-      let repeated = false;
-      for (let j = 0; j < images.length; j++) {
-        if (imgOBJ[i].hiRes == images[j]) {
-          repeated = true;
-          break;
+
+  let img1 = page.match(/(?<='colorImages': { 'initial': )(.*?)(?<=\}\])/);
+  if (!img1) {
+    img1 = page.match(/(?<=data-a-dynamic-image=")(.*?)(?=")/);
+    if (img1) {
+      img1 = img1[0].match(/(?=https:)(.*?)(?<=.jpg)/g);
+      if (img1) {
+        for (let i = 0; i < img1.length; i++) {
+          images.push(img1[i]);
         }
       }
-      if (!repeated) {
-        images.push(imgOBJ[i].hiRes);
+    }
+  } else {
+    const imgOBJ = img1 ? JSON.parse(img1![0]) : null;
+
+    if (imgOBJ) {
+      images.push(imgOBJ[0].hiRes);
+      for (let i = 0; i < imgOBJ.length; i++) {
+        let repeated = false;
+        for (let j = 0; j < images.length; j++) {
+          if (imgOBJ[i].hiRes == images[j]) {
+            repeated = true;
+            break;
+          }
+        }
+        if (!repeated) {
+          images.push(imgOBJ[i].hiRes);
+        }
       }
     }
   }
   return images;
 }
 
-async function getImage(page: string) {
-  const img1 = page.match(/(?<="hiRes":")(.*?)(?=")/);
-  const imageUrl = img1 ? img1[0] : null;
+// async function getImage(page: string) {
+//   const img1 = page.match(/(?<="hiRes":")(.*?)(?=")/);
+//   const imageUrl = img1 ? img1[0] : null;
 
-  return imageUrl;
-}
+//   return imageUrl;
+// }
 
 async function getTitle(page: string) {
   const desc1 = page.match(/(?<=id="productTitle" )(.*?)(?=\s*<\/span)/s);

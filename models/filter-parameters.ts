@@ -27,7 +27,7 @@ class FilterParameters {
   constructor() {
     this.Period = QueryPeriods.Days30;
     this.Sort = SortKeys.Updated;
-    this.Active = "";
+    this.Active = "Ativas";
     this.Store = "";
     this.Category = "";
     this.Campaign = "";

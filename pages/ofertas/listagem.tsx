@@ -16,8 +16,9 @@ import Category from "../../models/category";
 import { SortKeys } from "../../models/filter-parameters";
 import Offer from "../../models/offer";
 import Store from "../../models/store";
-import { SortOffers } from "../../utils/offers-sorter-filter";
+import { FilterOffers, SortOffers } from "../../utils/offers-sorter-filter";
 import { useApp } from "../../context/AppContext";
+import LoadingIcon from "../../components/buttons/loading-icon";
 
 type Props = {
   stores: Store[];
@@ -39,15 +40,18 @@ const ListOffers: NextPage<Props> = (props) => {
     defineFilterParameters,
   } = useApp();
   const [stores, setStores] = useState(props.stores);
+  const [loading, setLoading] = useState(false);
 
   async function getOffersAsync() {
-    if (!offerSelected.SK) {
-      let newOffers = await getOffers(QueryPeriods.Years1);
-      newOffers = SortOffers(SortKeys.Updated, newOffers);
-      defineOffers(newOffers);
-      defineOffersFiltered(newOffers);
-      defineOfferSelected(newOffers[0]);
-    }
+    setLoading(true);
+    let newOffers = await getOffers(QueryPeriods.Days30);
+    newOffers = SortOffers(SortKeys.Updated, newOffers);
+    defineOffers(newOffers);
+    const newOfferFiltered = FilterOffers(filterParameters, newOffers);
+
+    defineOffersFiltered(newOfferFiltered);
+    defineOfferSelected(newOfferFiltered[0]);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const ListOffers: NextPage<Props> = (props) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="relative flex h-screen w-screen flex-col justify-start bg-white">
-        <div className="flex h-[6%]">
+        <div className="flex h-[5%]">
           <MainHeader homePage={false} />
         </div>
 
@@ -89,16 +93,24 @@ const ListOffers: NextPage<Props> = (props) => {
               />
             </div>
             <div className="h-[90%] pt-2">
-              <ListOffersResult
-                scrollY={scrollY}
-                defineScrollY={defineScrollY}
-                offers={offersFiltered}
-                defineOffers={defineOffers}
-                stores={stores}
-                setStores={setStores}
-                offerSelected={offerSelected}
-                defineOfferSelected={defineOfferSelected}
-              />
+              {loading ? (
+                <div className="flex h-full flex-col items-center justify-center align-middle">
+                  <div className="h-20">
+                    <LoadingIcon />
+                  </div>
+                </div>
+              ) : (
+                <ListOffersResult
+                  scrollY={scrollY}
+                  defineScrollY={defineScrollY}
+                  offers={offersFiltered}
+                  defineOffers={defineOffers}
+                  stores={stores}
+                  setStores={setStores}
+                  offerSelected={offerSelected}
+                  defineOfferSelected={defineOfferSelected}
+                />
+              )}
             </div>
           </div>
 
@@ -110,7 +122,7 @@ const ListOffers: NextPage<Props> = (props) => {
           </div>
         </div>
 
-        <div className="h-[4%]">
+        <div className="h-[5%]">
           <MainFooter />
         </div>
       </main>

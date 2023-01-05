@@ -32,6 +32,7 @@ const NewOffer: NextPage<Props> = (props) => {
   useEffect(() => {
     const newOffer = new Offer();
     const expiredDate = new Date();
+    expiredDate.setHours(0, 0, 0, 0);
     expiredDate.setDate(expiredDate.getDate() + 30);
     newOffer.Expired = expiredDate;
     newOffer.Store = props.stores[props.stores.length - 1].Description;

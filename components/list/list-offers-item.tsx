@@ -3,7 +3,7 @@ import Image from "next/image";
 import CardLogoStore from "../card/card-logos/card-logo-store";
 import Store from "../../models/store";
 import { useRouter } from "next/router";
-import DateFormatter from "../../utils/date-converter-br";
+import { DateFormatterBR } from "../../utils/date-formatter";
 
 type Props = {
   itemKey: string;
@@ -64,20 +64,20 @@ export default function ListOffersItem(props: Props) {
               </div>
               <div className="flex justify-between space-x-10">
                 <div className="mr-80 flex w-full justify-start space-x-10 text-xs">
-                  <div>Cadastro: {DateFormatter(props.offer.Created)}</div>
-                  <div>Atualização: {DateFormatter(props.offer.Updated)}</div>
+                  <div>Cadastro: {DateFormatterBR(props.offer.Created)}</div>
+                  <div>Atualização: {DateFormatterBR(props.offer.Updated)}</div>
                   {new Date(props.offer.Expired) < new Date() ? (
                     <div className="text-red-500">
                       Validade:{" "}
                       {props.offer.Expired
-                        ? DateFormatter(props.offer.Expired)
+                        ? DateFormatterBR(props.offer.Expired)
                         : null}
                     </div>
                   ) : (
                     <div>
                       Validade:{" "}
                       {props.offer.Expired
-                        ? DateFormatter(props.offer.Expired)
+                        ? DateFormatterBR(props.offer.Expired)
                         : null}
                     </div>
                   )}

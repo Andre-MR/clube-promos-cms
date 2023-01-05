@@ -1,6 +1,7 @@
 export default class Offer {
   constructor() {
     const today = new Date();
+    // today.setHours(0, 0, 0, 0);
     this.PK = "";
     this.SK = "";
     this.Active = true;

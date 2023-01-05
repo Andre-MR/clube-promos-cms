@@ -117,7 +117,7 @@ export default function FormImage(props: Props) {
             />
             {props.offer.Store == "Amazon" && props.imageURLs.length > 0 ? (
               <button
-                className="absolute top-0 bottom-0 right-0 rounded px-2 shadow hover:bg-cyan-50"
+                className="absolute top-0 bottom-0 right-0 rounded bg-white px-2 shadow hover:bg-cyan-50"
                 onClick={(e) => {
                   e.preventDefault();
                   changeImageURL();

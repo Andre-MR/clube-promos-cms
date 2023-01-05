@@ -26,6 +26,7 @@ async function awsGetOffers(key: {
 
 async function awsCreateOffer(offer: Offer, imageFile: Buffer | null) {
   const today = new Date();
+  // today.setHours(0, 0, 0, 0);
   const todayYear = today.getFullYear().toString();
   const todayMonth = (today.getMonth() + 1).toString().padStart(2, "0");
   const todayDay = today.getDate().toString().padStart(2, "0");
@@ -86,6 +87,7 @@ async function awsCreateOffer(offer: Offer, imageFile: Buffer | null) {
 
 async function awsUpdateOffer(offer: Offer, imageFile: Buffer | null) {
   const today = new Date();
+  // today.setHours(0, 0, 0, 0);
   const imageUrl = imageFile
     ? await awsSaveImageFromFile(offer.SK, imageFile)
     : offer.ImageUrl.includes(`${process.env.AMAZON_S3_BUCKET}.s3`)

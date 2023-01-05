@@ -17,6 +17,10 @@ type Props = {
   setImageUrls: Dispatch<SetStateAction<string[]>>;
 };
 
+async function sleep(ms: number) {
+  return await new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default function FormButtons(props: Props) {
   const [offerActive, setOfferActive] = useState(true);
   return (
@@ -24,11 +28,24 @@ export default function FormButtons(props: Props) {
       <div className="relative cursor-pointer">
         {props.offerSelected.SK ? (
           offerActive ? (
-            <button type="submit" formMethod="post">
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+
+                const newOffer = structuredClone(props.offerSelected);
+                newOffer.SK = "";
+                props.defineOfferSelected(newOffer);
+              }}
+            >
               <DefaultButton text={"Duplicar"} type={ButtonTypes.Info} />
             </button>
           ) : (
-            <button type="submit" formMethod="post" onClick={props.handleModal}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                props.handleModal();
+              }}
+            >
               <DefaultButton text={"Excluir"} type={ButtonTypes.Danger} />
             </button>
           )
@@ -54,10 +71,13 @@ export default function FormButtons(props: Props) {
             type="checkbox"
             id="active"
             name="active"
-            required
-            defaultChecked
+            checked={props.offerSelected.SK ? props.offerSelected.Active : true}
             onChange={(e) => {
               setOfferActive(e.currentTarget.checked);
+
+              const newOffer = structuredClone(props.offerSelected);
+              newOffer.Active = e.currentTarget.checked;
+              props.defineOfferSelected(newOffer);
             }}
           ></input>
           <svg

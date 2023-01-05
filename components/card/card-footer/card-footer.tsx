@@ -1,12 +1,12 @@
 import Offer from "../../../models/offer";
-import DateFormatter from "../../../utils/date-converter-br";
+import { DateFormatterBR } from "../../../utils/date-formatter";
 
 type Props = {
   offer: Offer;
 };
 
 export default function CardFooter(props: Props) {
-  const updateFormatted = DateFormatter(props.offer.Updated);
+  const updateFormatted = DateFormatterBR(props.offer.Updated);
   return (
     <div
       id="card-footer"

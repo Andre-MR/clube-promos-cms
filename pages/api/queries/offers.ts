@@ -1,4 +1,6 @@
 import Offer from "../../../models/offer";
+import SanitizeURL from "../../../utils/sanitize-url";
+
 import {
   awsGetOffers,
   awsCreateOffer,
@@ -6,15 +8,24 @@ import {
   awsDeleteOffer,
 } from "../../../database/aws/dynamo-offers";
 import { NextApiRequest, NextApiResponse } from "next";
+import awsGetCategories from "../../../database/aws/dynamo-categories";
 
-async function revalidateSite() {
+async function revalidateSite(category: string) {
   if (process.env.SITE_DOMAIN) {
-    console.log("process.env.SITE_DOMAIN");
-    console.log(process.env.SITE_DOMAIN);
-    const revalidateResult = await fetch(
-      `${process.env.SITE_DOMAIN}/api/revalidate`
+    await fetch(`${process.env.SITE_DOMAIN}/api/revalidate?path=/`);
+    const categories = await awsGetCategories();
+    let categoryID = "";
+    for (let i = 0; i < categories.length; i++) {
+      if (SanitizeURL(categories[i].Description) == SanitizeURL(category)) {
+        categoryID = categories[i].SK;
+        break;
+      }
+    }
+    await fetch(
+      `${
+        process.env.SITE_DOMAIN
+      }/api/revalidate?path=/categorias/${categoryID}/${SanitizeURL(category)}`
     );
-    console.log(await revalidateResult.json());
   }
 }
 
@@ -28,7 +39,7 @@ async function saveOffer(offer: Offer, imageFile: Buffer | null) {
   } else {
     const offerCreated = await awsCreateOffer(offer, imageFile);
     if (offerCreated) {
-      revalidateSite();
+      revalidateSite(offer.Category);
     }
     return offerCreated;
   }
@@ -36,7 +47,10 @@ async function saveOffer(offer: Offer, imageFile: Buffer | null) {
 
 async function deleteOffer(offer: Offer) {
   if (offer.SK) {
-    return await awsDeleteOffer(offer);
+    const offerDeleted = await awsDeleteOffer(offer);
+    if (offerDeleted) {
+      revalidateSite(offer.Category);
+    }
   } else {
     return false;
   }

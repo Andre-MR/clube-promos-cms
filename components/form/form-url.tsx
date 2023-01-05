@@ -17,7 +17,12 @@ export default function FormUrl(props: Props) {
   const [loading, setLoading] = useState(false);
 
   async function validateAmazon() {
-    if (productUrl.match("/amzn.") || productUrl.match("amazon.com")) {
+    if (
+      productUrl.match("/amzn.") ||
+      productUrl.match("amazon.com") ||
+      props.offer.Url.match("/amzn.") ||
+      props.offer.Url.match("amazon.com")
+    ) {
       setLoading(true);
       getProduct(productUrl);
     }
@@ -34,8 +39,11 @@ export default function FormUrl(props: Props) {
   }
 
   async function getProduct(amazonParameter: string) {
+    if (!amazonParameter) {
+      amazonParameter = props.offer.Url;
+    }
     const product = await getAmazonProduct(amazonParameter);
-    const newOffer = new Offer();
+    const newOffer = structuredClone(props.offer);
     newOffer.Title = product.title ? product.title : "";
     newOffer.ImageUrl = product.imageUrls
       ? product.imageUrls.length > 0
@@ -99,18 +107,20 @@ export default function FormUrl(props: Props) {
               validateAmazon();
             }}
           >
-            <svg
-              className="h-5 w-5 fill-cyan-500"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-            >
-              <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zM432 456c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z" />
-            </svg>
-            {loading ? (
-              <div className="absolute top-0 right-0 flex h-9 items-center justify-center">
-                <LoadingIcon />
-              </div>
-            ) : null}
+            <div className="relative m-0 flex items-center justify-center p-0 align-middle">
+              <svg
+                className="h-5 w-5 fill-cyan-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zM432 456c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z" />
+              </svg>
+              {loading ? (
+                <div className="absolute h-8 w-8">
+                  <LoadingIcon />
+                </div>
+              ) : null}
+            </div>
           </button>
         ) : null}
       </div>

@@ -1,9 +1,17 @@
 import Offer from "../../models/offer";
+import { DateFormatterUS } from "../../utils/date-formatter";
 
 type Props = {
   offer: Offer;
   defineOfferSelected: (offer: Offer) => void;
 };
+
+function defaultExpired() {
+  const newExpired = new Date();
+  newExpired.setHours(0, 0, 0, 0);
+  newExpired.setDate(newExpired.getDate() + 30);
+  return newExpired;
+}
 
 export default function FormExpired(props: Props) {
   return (
@@ -23,7 +31,7 @@ export default function FormExpired(props: Props) {
           props.offer.SK
             ? props.offer.Expired.toString().substring(0, 10)
             : props.offer.Expired
-            ? props.offer.Expired.toISOString().substring(0, 10)
+            ? DateFormatterUS(props.offer.Expired)
             : ""
         }
       />

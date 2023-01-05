@@ -12,7 +12,7 @@ export default function CardPreview(props: Props) {
   return (
     <>
       <FormHeader title="Pré-visualização" />
-      <div className="flex justify-center text-fuchsia-900">
+      <div className="shadow-yellow flex justify-center text-fuchsia-900">
         {props.offer.SK}
       </div>
 
