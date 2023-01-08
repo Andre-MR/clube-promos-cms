@@ -14,10 +14,13 @@ export default function FormCampaigns(props: Props) {
       <select
         className="h-full rounded py-1 px-1"
         multiple
+        onChange={(e) => {
+          e.preventDefault();
+        }}
         value={
           props.offer.SK
             ? props.offer.Campaigns.map((campaign) => campaign)
-            : ""
+            : []
         }
       >
         {props.campaigns.map((campaign) => {

@@ -42,6 +42,7 @@ const validateForm = (offer: Offer, imageFile: Buffer | null) => {
 export default function FormMain(props: Props) {
   const [imageURL, setImageURL] = useState("");
   const [imageURLs, setImageUrls] = useState<string[]>([]);
+  const [descriptions, setDescriptions] = useState<string[]>([]);
   const [imageFileURL, setImageFileURL] = useState("");
   const [imageFileSelected, setImageFileSelected] = useState(false);
   const [imageFile, setImageFile] = useState<Buffer | null>(null);
@@ -119,7 +120,6 @@ export default function FormMain(props: Props) {
               setImageFileSelected={setImageFileSelected}
               setImageFile={setImageFile}
               imageURLs={imageURLs}
-              setImageURLs={setImageUrls}
             />
           </div>
           <div className="flex w-2/4">
@@ -153,10 +153,13 @@ export default function FormMain(props: Props) {
               resultRef={resultRef}
               setImageUrls={setImageUrls}
               cmsSettings={props.cmsSettings}
+              setDescriptions={setDescriptions}
             />
             <FormDescription
               offer={props.offerSelected}
               defineOfferSelected={props.defineOfferSelected}
+              descriptions={descriptions}
+              cmsSettings={props.cmsSettings}
             />
           </div>
           <div className="flex w-1/4 flex-col space-y-2">

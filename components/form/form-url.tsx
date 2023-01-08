@@ -9,6 +9,7 @@ type Props = {
   defineOfferSelected: (offer: Offer) => void;
   resultRef: RefObject<HTMLSelectElement>;
   setImageUrls: Dispatch<SetStateAction<string[]>>;
+  setDescriptions: Dispatch<SetStateAction<string[]>>;
   cmsSettings: Setting[];
 };
 
@@ -56,7 +57,12 @@ export default function FormUrl(props: Props) {
     newOffer.Store = "Amazon";
     newOffer.Url = amazonParameter;
 
-    newOffer.Description = product.description ? product.description : "";
+    newOffer.Description = product.descriptions
+      ? product.descriptions.length > 0
+        ? product.descriptions[0]
+        : ""
+      : "";
+    props.setDescriptions(product.descriptions ? product.descriptions : []);
     if (product.price && product.price.sns) {
       let amazonDescription = "";
       for (const setting of props.cmsSettings) {
@@ -65,7 +71,7 @@ export default function FormUrl(props: Props) {
           break;
         }
       }
-      newOffer.Description = amazonDescription + product.description;
+      newOffer.Description = amazonDescription + product.descriptions[0];
     }
     props.defineOfferSelected(newOffer);
     setLoading(false);

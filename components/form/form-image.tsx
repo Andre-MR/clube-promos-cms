@@ -13,7 +13,6 @@ type Props = {
   imageFile: Buffer | null;
   setImageFile: Dispatch<SetStateAction<Buffer | null>>;
   imageURLs: Array<string>;
-  setImageURLs: Dispatch<SetStateAction<string[]>>;
 };
 
 export default function FormImage(props: Props) {

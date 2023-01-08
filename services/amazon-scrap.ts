@@ -32,7 +32,6 @@ async function getPrice<Price>(page: string) {
 async function getOldPrice(page: string) {
   const price1 = page.match(/(?<=>De:)(.*?)(?=<\/span)/s);
   const price2 = price1 ? price1[0].match(/([0-9]*,[0-9]*)$/) : null;
-  // const price2 = price1 ? price1[0].match(/([^R\$ ]*?$)/) : null;
   let priceDouble = 0;
   if (price2 && price2.length > 0) {
     priceDouble = Number.parseFloat(
@@ -49,7 +48,9 @@ async function getOldPrice(page: string) {
   return priceDouble;
 }
 
-async function getDescription(page: string) {
+async function getDescriptions(page: string) {
+  const descriptions: string[] = [];
+
   const desc1 = page.match(/(?<=id="productDescription" )(.*)(?=<\/span)/s);
   const desc2 = desc1 ? desc1[0].match(/(?<=<span>)(.*)(?=<\/span)/) : null;
   let description = desc2 ? desc2[0] : null;
@@ -60,9 +61,28 @@ async function getDescription(page: string) {
   if (description) {
     description = description?.replace(/(<\/(.*?)>)/g, " ");
     description = description?.replace(/(<(.*?)>)/g, "");
+    descriptions.push(description);
   }
 
-  return description;
+  let about;
+  const about1 = page.match(
+    /(?<=<ul class="a-unordered-list a-vertical a-spacing-mini">)(.*?)(?=<\/ul>)/
+  );
+  const about2 = about1
+    ? about1[0].match(/(?<=<span class="a-list-item"> )(.*?)(?=  <\/span>)/g)
+    : null;
+  if (about2) {
+    about = "";
+    for (const item of about2) {
+      about += `${item}
+`;
+    }
+    about = about?.replace(/【/g, "");
+    about = about?.replace(/】/g, " ");
+    descriptions.push(about);
+  }
+
+  return descriptions;
 }
 
 async function getImages(page: string) {
@@ -98,20 +118,19 @@ async function getImages(page: string) {
       }
     }
   }
-  // fs.writeFile("page.html", page, (err) => {}); // used to analyze html to define scraping method
   return images;
 }
 
 async function getTitle(page: string) {
   const desc1 = page.match(/(?<=id="productTitle" )(.*?)(?=\s*<\/span)/s);
   const desc2 = desc1 ? desc1[0].match(/(?<=">)(.*)/) : null;
-  const title = desc2 ? desc2[0].replace(/(^\s+)/, "") : null;
+  let title = desc2 ? desc2[0].replace(/(^\s+)/, "") : null;
+  title = title ? title.replace("&#34;", '"') : null; // encoding issue
 
   return title;
 }
 
 async function scrapAmazonProduct(amazonParameter: string) {
-  // const isAsin = amazonParameter.match(/B.{9}/);
   const isAmzn =
     amazonParameter.match("/amzn.") || amazonParameter.match("amazon.com");
 
@@ -153,16 +172,16 @@ async function scrapAmazonProduct(amazonParameter: string) {
     });
     const resultText = await result.text();
     const title = await getTitle(resultText);
-    const description = await getDescription(resultText);
-    // const imageUrl = await getImage(resultText);
+    const descriptions = await getDescriptions(resultText);
     const imageUrls = await getImages(resultText);
     const price = await getPrice(resultText);
     const oldPrice = await getOldPrice(resultText);
 
+    // fs.writeFile("page.html", resultText, (err) => {}); // used to analyze html to define scraping method
+
     return {
       title: title,
-      description: description,
-      // imageUrl: imageUrl,
+      descriptions: descriptions,
       imageUrls: imageUrls,
       price: price,
       oldPrice: oldPrice,
