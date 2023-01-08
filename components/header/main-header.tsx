@@ -34,7 +34,7 @@ export default function MainHeader(props: Props) {
   };
 
   return (
-    <nav className="sticky top-0 z-30 m-auto flex w-full items-center justify-between bg-fuchsia-900">
+    <nav className="z-30 m-auto flex w-full items-center justify-between bg-fuchsia-900">
       <div className="relative flex w-full flex-wrap items-center justify-between">
         <div className="relative z-10 flex w-full items-center justify-between">
           <div className="flex w-20">
@@ -67,8 +67,8 @@ export default function MainHeader(props: Props) {
             className="group relative mx-2 flex w-20 justify-end"
             onClick={hamburgerClick}
           >
-            <div className="relative m-1 flex h-[35px] w-[35px] items-center justify-center overflow-hidden transition-all duration-200">
-              <div className="flex h-1/2 w-2/3 origin-center transform flex-col justify-between overflow-hidden transition-all duration-200">
+            <div className="relative m-1 flex h-[30px] w-[35px] items-center justify-center overflow-hidden transition-all duration-200">
+              <div className="flex h-full w-2/3 origin-center transform flex-col justify-between overflow-hidden py-1.5 transition-all duration-200">
                 <div
                   className={`h-[2px] w-full origin-left transform bg-gray-100 transition-all duration-200 ${hamburgerStyle.hamburgerLines}`}
                 ></div>
@@ -80,7 +80,7 @@ export default function MainHeader(props: Props) {
                 ></div>
 
                 <div
-                  className={`absolute top-2.5 transform items-center justify-between transition-all duration-200 ${hamburgerStyle.crossGroup} flex w-0 group-focus:w-12`}
+                  className={`absolute top-0 bottom-0 transform items-center justify-between transition-all duration-200 ${hamburgerStyle.crossGroup} flex w-0 group-focus:w-12`}
                 >
                   <div
                     className={`absolute h-[2px] w-5 transform bg-gray-100 transition-all duration-200 ${hamburgerStyle.crossLine1} delay-300`}

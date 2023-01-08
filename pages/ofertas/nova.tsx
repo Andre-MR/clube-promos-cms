@@ -49,7 +49,7 @@ const NewOffer: NextPage<Props> = (props) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="flex h-screen w-screen flex-col justify-start bg-gradient-to-b from-gray-300 to-gray-100">
-        <div className="flex h-[5%]">
+        <div className="flex h-auto">
           <MainHeader homePage={false} />
         </div>
 
@@ -78,7 +78,7 @@ const NewOffer: NextPage<Props> = (props) => {
           </div>
         </div>
 
-        <div className="h-[4%]">
+        <div className="h-[3%]">
           <MainFooter />
         </div>
       </main>

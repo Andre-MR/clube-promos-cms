@@ -67,11 +67,11 @@ const ListOffers: NextPage<Props> = (props) => {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main className="relative flex h-screen w-screen flex-col justify-start bg-white">
-        <div className="flex h-[5%]">
+        <div className="flex h-auto">
           <MainHeader homePage={false} />
         </div>
 
-        <div className="flex h-[90%]">
+        <div className="flex h-[94%]">
           <div className="h-full w-9/12 border-r-4 border-fuchsia-900">
             <div className="h-[5%]">
               <FormHeader
@@ -122,7 +122,7 @@ const ListOffers: NextPage<Props> = (props) => {
           </div>
         </div>
 
-        <div className="h-[5%]">
+        <div className="fixed bottom-0 h-[3%] w-full">
           <MainFooter />
         </div>
       </main>

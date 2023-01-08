@@ -1,3 +1,5 @@
+// import fs from "fs";
+
 let snsPrice = false;
 
 type Price = {
@@ -81,7 +83,7 @@ async function getImages(page: string) {
     const imgOBJ = img1 ? JSON.parse(img1![0]) : null;
 
     if (imgOBJ) {
-      images.push(imgOBJ[0].hiRes);
+      images.push(imgOBJ[0].hiRes ? imgOBJ[0].hiRes : imgOBJ[0].large);
       for (let i = 0; i < imgOBJ.length; i++) {
         let repeated = false;
         for (let j = 0; j < images.length; j++) {
@@ -91,20 +93,14 @@ async function getImages(page: string) {
           }
         }
         if (!repeated) {
-          images.push(imgOBJ[i].hiRes);
+          images.push(imgOBJ[i].hiRes ? imgOBJ[i].hiRes : imgOBJ[i].large);
         }
       }
     }
   }
+  // fs.writeFile("page.html", page, (err) => {}); // used to analyze html to define scraping method
   return images;
 }
-
-// async function getImage(page: string) {
-//   const img1 = page.match(/(?<="hiRes":")(.*?)(?=")/);
-//   const imageUrl = img1 ? img1[0] : null;
-
-//   return imageUrl;
-// }
 
 async function getTitle(page: string) {
   const desc1 = page.match(/(?<=id="productTitle" )(.*?)(?=\s*<\/span)/s);
